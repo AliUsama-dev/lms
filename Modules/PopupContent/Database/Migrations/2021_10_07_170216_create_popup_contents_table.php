@@ -26,8 +26,8 @@ class CreatePopupContentsTable extends Migration
 
         $popup = new PopupContent();
         $popup->image = 'public/uploads/popup/1.png';
-        $popup->title = 'Your Gateway to Knowledge! - Introducing the Infix Learning Management System';
-        $popup->message = "Unlock the power of seamless learning with our cutting-edge Infix Learning Management System. Designed to empower individuals and organizations, our platform revolutionizes the way you acquire knowledge, making learning an engaging and transformative experience.";
+        $popup->title = 'Your Gateway to Knowledge! - Introducing the  Learning Management System';
+        $popup->message = "Unlock the power of seamless learning with our cutting-edge Learning Management System. Designed to empower individuals and organizations, our platform revolutionizes the way you acquire knowledge, making learning an engaging and transformative experience.";
         $popup->link = '/';
         $popup->btn_txt = 'Visit Website';
         $popup->save();

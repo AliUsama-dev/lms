@@ -263,7 +263,8 @@
                             <!--/ Menu_NOtification_Wrap  -->
                         </li>
                         {{-- End Notification --}}
-                        @if (permissionCheck('communication.PrivateMessage'))
+                        {{-- Messages hidden --}}
+                        {{-- @if (permissionCheck('communication.PrivateMessage'))
                             <li class="scroll_notification_list" data-bs-toggle="tooltip" data-bs-placement="bottom"
                                 title="{{__('common.Message')}}" data-bs-custom-class="tooltip-zindex">
                                 <a class="pulse theme_color"
@@ -287,7 +288,7 @@
                                     @endif
                                 </a>
                             </li>
-                        @endif
+                        @endif --}}
 
                         @if(isModuleActive('Chat'))
                             <li class="scroll_notification_list">
