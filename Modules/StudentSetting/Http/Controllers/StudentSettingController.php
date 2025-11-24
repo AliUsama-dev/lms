@@ -102,6 +102,25 @@ class StudentSettingController extends Controller
         $rules['linkedin'] = ['nullable', 'regex:#^(https?://)?(www\.)?linkedin\.com(/.*)?$#i'];
         $rules['instagram'] = ['nullable', 'regex:#^(https?://)?(www\.)?instagram\.com(/.*)?$#i'];
         $rules['youtube'] = ['nullable', 'regex:#^(https?://)?(www\.)?(youtube\.com|youtu\.be)(/.*)?$#i'];
+        
+        // Date of Birth validation - must be more than 7 years old
+        $rules['dob'] = [
+            'nullable',
+            function ($attribute, $value, $fail) {
+                if ($value) {
+                    try {
+                        $format = getActivePhpDateFormat();
+                        $dob = Carbon::createFromFormat($format, $value);
+                        $sevenYearsAgo = Carbon::now()->subYears(7);
+                        if ($dob->gt($sevenYearsAgo)) {
+                            $fail(__('Date of Birth must be more than 7 years ago'));
+                        }
+                    } catch (Exception $e) {
+                        $fail(__('Invalid date format for Date of Birth'));
+                    }
+                }
+            },
+        ];
 
         $messages = validationMessage($rules);
         $messages['facebook.regex'] = __('The Facebook URL must be a valid Facebook link');
@@ -786,12 +805,31 @@ class StudentSettingController extends Controller
         $rules['linkedin'] = ['nullable', 'regex:#^(https?://)?(www\.)?linkedin\.com(/.*)?$#i'];
         $rules['instagram'] = ['nullable', 'regex:#^(https?://)?(www\.)?instagram\.com(/.*)?$#i'];
         $rules['youtube'] = ['nullable', 'regex:#^(https?://)?(www\.)?(youtube\.com|youtu\.be)(/.*)?$#i'];
+        
+        // Date of Birth validation - must be more than 7 years old
+        $rules['dob'] = [
+            'nullable',
+            function ($attribute, $value, $fail) {
+                if ($value) {
+                    try {
+                        $format = getActivePhpDateFormat();
+                        $dob = Carbon::createFromFormat($format, $value);
+                        $sevenYearsAgo = Carbon::now()->subYears(7);
+                        if ($dob->gt($sevenYearsAgo)) {
+                            $fail(__('Date of Birth must be more than 7 years ago'));
+                        }
+                    } catch (Exception $e) {
+                        $fail(__('Invalid date format for Date of Birth'));
+                    }
+                }
+            },
+        ];
 
         $messages = validationMessage($rules);
         $messages['facebook.regex'] = __('The Facebook URL must be a valid Facebook link');
         $messages['twitter.regex'] = __('The Twitter URL must be a valid Twitter link');
         $messages['linkedin.regex'] = __('The LinkedIn URL must be a valid LinkedIn link');
-        $messages['instagram.regex'] = __('che Instagram URL must be a valid Instagram link');
+        $messages['instagram.regex'] = __('The Instagram URL must be a valid Instagram link');
         $messages['youtube.regex'] = __('The YouTube URL must be a valid YouTube link');
 
         $this->validate($request, $rules, $messages);

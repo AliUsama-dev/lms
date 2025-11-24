@@ -75,6 +75,9 @@
                                                         </button>
                                                     </div>
                                                 </div>
+                                                @if($errors->has('dob'))
+                                                    <span class="text-danger">{{ $errors->first('dob') }}</span>
+                                                @endif
                                             </div>
                                         </div>
                                         <div class="col-xl-6">
