@@ -260,7 +260,21 @@ class StudentController extends Controller
             ];
         }
 
-        $request->validate($validate_rules, validationMessage($validate_rules));
+        // Social media URL validation
+        $validate_rules['facebook'] = ['nullable', 'regex:#^(https?://)?(www\.)?(facebook\.com|fb\.com)(/.*)?$#i'];
+        $validate_rules['twitter'] = ['nullable', 'regex:#^(https?://)?(www\.)?(twitter\.com|x\.com)(/.*)?$#i'];
+        $validate_rules['linkedin'] = ['nullable', 'regex:#^(https?://)?(www\.)?linkedin\.com(/.*)?$#i'];
+        $validate_rules['instagram'] = ['nullable', 'regex:#^(https?://)?(www\.)?instagram\.com(/.*)?$#i'];
+        $validate_rules['youtube'] = ['nullable', 'regex:#^(https?://)?(www\.)?(youtube\.com|youtu\.be)(/.*)?$#i'];
+
+        $messages = validationMessage($validate_rules);
+        $messages['facebook.regex'] = __('The Facebook URL must be a valid Facebook link');
+        $messages['twitter.regex'] = __('The Twitter URL must be a valid Twitter link');
+        $messages['linkedin.regex'] = __('The LinkedIn URL must be a valid LinkedIn link');
+        $messages['instagram.regex'] = __('The Instagram URL must be a valid Instagram link');
+        $messages['youtube.regex'] = __('The YouTube URL must be a valid YouTube link');
+
+        $request->validate($validate_rules, $messages);
 
 
         try {

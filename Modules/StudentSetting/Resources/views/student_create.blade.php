@@ -219,6 +219,10 @@
                                                        id="addFacebook"
                                                        type="text"
                                                        value="{{ old('facebook',isset($user)?$user->facebook:'') }}">
+                                                <span class="text-danger error_message" id="facebook_error" style="display: none;"></span>
+                                                @if($errors->has('facebook'))
+                                                    <span class="text-danger">{{ $errors->first('facebook') }}</span>
+                                                @endif
                                             </div>
                                         </div>
                                         <div class="col-xl-6">
@@ -229,6 +233,10 @@
                                                        id="addTwitter"
                                                        type="text"
                                                        value="{{ old('twitter',isset($user)?$user->twitter:'') }}">
+                                                <span class="text-danger error_message" id="twitter_error" style="display: none;"></span>
+                                                @if($errors->has('twitter'))
+                                                    <span class="text-danger">{{ $errors->first('twitter') }}</span>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
@@ -242,6 +250,10 @@
                                                        id="addLinked"
                                                        type="text"
                                                        value="{{ old('linkedin',isset($user)?$user->linkedin:'') }}">
+                                                <span class="text-danger error_message" id="linkedin_error" style="display: none;"></span>
+                                                @if($errors->has('linkedin'))
+                                                    <span class="text-danger">{{ $errors->first('linkedin') }}</span>
+                                                @endif
                                             </div>
                                         </div>
                                         <div class="col-xl-6">
@@ -252,6 +264,10 @@
                                                        id="addYoutube"
                                                        type="text"
                                                        value="{{ old('youtube',isset($user)?$user->youtube:'') }}">
+                                                <span class="text-danger error_message" id="youtube_error" style="display: none;"></span>
+                                                @if($errors->has('youtube'))
+                                                    <span class="text-danger">{{ $errors->first('youtube') }}</span>
+                                                @endif
                                             </div>
                                         </div>
                                         <div class="col-xl-6">
@@ -262,6 +278,10 @@
                                                        id="addInstagram"
                                                        type="text"
                                                        value="{{ old('instagram',isset($user)?$user->instagram:'') }}">
+                                                <span class="text-danger error_message" id="instagram_error" style="display: none;"></span>
+                                                @if($errors->has('instagram'))
+                                                    <span class="text-danger">{{ $errors->first('instagram') }}</span>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>

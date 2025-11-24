@@ -96,7 +96,21 @@ class StudentSettingController extends Controller
 
         }
 
-        $this->validate($request, $rules, validationMessage($rules));
+        // Social media URL validation
+        $rules['facebook'] = ['nullable', 'regex:#^(https?://)?(www\.)?(facebook\.com|fb\.com)(/.*)?$#i'];
+        $rules['twitter'] = ['nullable', 'regex:#^(https?://)?(www\.)?(twitter\.com|x\.com)(/.*)?$#i'];
+        $rules['linkedin'] = ['nullable', 'regex:#^(https?://)?(www\.)?linkedin\.com(/.*)?$#i'];
+        $rules['instagram'] = ['nullable', 'regex:#^(https?://)?(www\.)?instagram\.com(/.*)?$#i'];
+        $rules['youtube'] = ['nullable', 'regex:#^(https?://)?(www\.)?(youtube\.com|youtu\.be)(/.*)?$#i'];
+
+        $messages = validationMessage($rules);
+        $messages['facebook.regex'] = __('The Facebook URL must be a valid Facebook link');
+        $messages['twitter.regex'] = __('The Twitter URL must be a valid Twitter link');
+        $messages['linkedin.regex'] = __('The LinkedIn URL must be a valid LinkedIn link');
+        $messages['instagram.regex'] = __('The Instagram URL must be a valid Instagram link');
+        $messages['youtube.regex'] = __('The YouTube URL must be a valid YouTube link');
+
+        $this->validate($request, $rules, $messages);
 
         try {
 
@@ -766,7 +780,21 @@ class StudentSettingController extends Controller
 
         }
 
-        $this->validate($request, $rules, validationMessage($rules));
+        // Social media URL validation
+        $rules['facebook'] = ['nullable', 'regex:#^(https?://)?(www\.)?(facebook\.com|fb\.com)(/.*)?$#i'];
+        $rules['twitter'] = ['nullable', 'regex:#^(https?://)?(www\.)?(twitter\.com|x\.com)(/.*)?$#i'];
+        $rules['linkedin'] = ['nullable', 'regex:#^(https?://)?(www\.)?linkedin\.com(/.*)?$#i'];
+        $rules['instagram'] = ['nullable', 'regex:#^(https?://)?(www\.)?instagram\.com(/.*)?$#i'];
+        $rules['youtube'] = ['nullable', 'regex:#^(https?://)?(www\.)?(youtube\.com|youtu\.be)(/.*)?$#i'];
+
+        $messages = validationMessage($rules);
+        $messages['facebook.regex'] = __('The Facebook URL must be a valid Facebook link');
+        $messages['twitter.regex'] = __('The Twitter URL must be a valid Twitter link');
+        $messages['linkedin.regex'] = __('The LinkedIn URL must be a valid LinkedIn link');
+        $messages['instagram.regex'] = __('che Instagram URL must be a valid Instagram link');
+        $messages['youtube.regex'] = __('The YouTube URL must be a valid YouTube link');
+
+        $this->validate($request, $rules, $messages);
 
         $user = User::findOrFail($request->id);
         try {
