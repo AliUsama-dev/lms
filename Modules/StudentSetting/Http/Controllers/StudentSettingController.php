@@ -3,6 +3,7 @@
 namespace Modules\StudentSetting\Http\Controllers;
 
 
+use App\Country;
 use App\Events\OneToOneConnection;
 use App\Http\Controllers\Controller;
 use App\Jobs\SendGeneralEmail;
@@ -80,11 +81,18 @@ class StudentSettingController extends Controller
         if (demoCheck()) {
             return redirect()->back();
         }
+        $custom_field = StudentCustomField::getData();
+
         $rules = [
             'name' => 'required',
             'phone' => 'nullable|string|regex:/^([0-9\s\-\+\(\)]*)$/|min:5|unique:users,phone,' . Auth::user()->lms_id,
             'password' => 'required|min:8|confirmed',
         ];
+
+        $countryRule = ($custom_field && $custom_field->required_country)
+            ? ['required', 'exists:countries,id']
+            : ['nullable', 'exists:countries,id'];
+        $rules['country'] = $countryRule;
 
         if (isModuleActive('Org')) {
             $rules['position'] = 'required';
@@ -181,7 +189,7 @@ class StudentSettingController extends Controller
             $user->language_code = Settings('language_code');
             $user->language_name = Settings('language_name');
             $user->language_rtl = Settings('language_rtl');
-            $user->country = Settings('country_id');
+            $user->country = $request->filled('country') ? $request->country : (Settings('country_id') ?? null);
             $user->teach_via = 1;
 
             if (isModuleActive('LmsSaas')) {
@@ -334,6 +342,7 @@ class StudentSettingController extends Controller
         $request['editable_name'] = 1;
         $request['editable_phone'] = $request->editable_phone ? 1 : 0;
         $request['editable_institute'] = $request->editable_institute ? 1 : 0;
+        $request['editable_country'] = $request->editable_country ? 1 : 0;
 
         $request['show_company'] = $request->show_company ? 1 : 0;
         $request['show_gender'] = $request->show_gender ? 1 : 0;
@@ -344,6 +353,7 @@ class StudentSettingController extends Controller
         $request['show_name'] = 1;
         $request['show_phone'] = $request->show_phone ? 1 : 0;
         $request['show_institute'] = $request->show_institute ? 1 : 0;
+        $request['show_country'] = $request->show_country ? 1 : 0;
 
         $request['required_company'] = $request->required_company ? 1 : 0;
         $request['required_gender'] = $request->required_gender ? 1 : 0;
@@ -354,6 +364,7 @@ class StudentSettingController extends Controller
         $request['required_name'] = 1;
         $request['required_phone'] = $request->required_phone ? 1 : 0;
         $request['required_institute'] = $request->required_institute ? 1 : 0;
+        $request['required_country'] = $request->required_country ? 1 : 0;
         return $request;
     }
 
@@ -361,7 +372,9 @@ class StudentSettingController extends Controller
     {
         try {
             $institutes = Institute::where('status',1)->get();
-            return view('studentsetting::student_create',compact('institutes'));
+            $countries = Country::orderBy('name')->get();
+            $custom_field = StudentCustomField::getData();
+            return view('studentsetting::student_create',compact('institutes','countries','custom_field'));
 
         } catch (Exception $e) {
             Toastr::error(trans('common.Operation failed'), trans('common.Failed'));
@@ -385,6 +398,8 @@ class StudentSettingController extends Controller
 
         $data['user'] = User::with('currency', 'userInfo', 'userInfo.timezone', 'userEducations', 'userSkill', 'userPayoutAccount')->findOrFail($id);
         $data['institutes']        = Institute::where('status',1)->get();
+        $data['countries'] = Country::orderBy('name')->get();
+        $data['custom_field'] = StudentCustomField::getData();
 
         return view('studentsetting::student_create', $data);
 
@@ -784,12 +799,19 @@ class StudentSettingController extends Controller
             return redirect()->back();
         }
 
+        $custom_field = StudentCustomField::getData();
+
         $rules = [
             'name' => 'required',
             'phone' => 'nullable|string|regex:/^([0-9\s\-\+\(\)]*)$/|min:1|unique:users,phone,' . $request->id,
             'password' => 'bail|nullable|min:8|confirmed',
 
         ];
+
+        $countryRule = ($custom_field && $custom_field->required_country)
+            ? ['required', 'exists:countries,id']
+            : ['nullable', 'exists:countries,id'];
+        $rules['country'] = $countryRule;
 
         if (isModuleActive('Org')) {
             $rules['email'] = 'nullable|email|required_without:username|unique:users,email,' . $request->id;
@@ -873,6 +895,9 @@ class StudentSettingController extends Controller
                 $user->email_verify = 1;
                 $user->gender = $request->gender;
                 $user->company = $request->company;
+                if ($request->has('country')) {
+                    $user->country = $request->filled('country') ? $request->country : null;
+                }
                 if ($request->password) {
                     $user->password = bcrypt($request->password);
                 }

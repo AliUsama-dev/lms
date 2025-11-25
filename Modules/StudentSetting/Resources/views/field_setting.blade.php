@@ -105,6 +105,15 @@
                                                     <i class="slider round"></i>
                                                 </label>
                                             </div>
+                                            <div class=" d-flex justify-content-between mb-3">
+                                                <p>{{ __('common.Country') }}</p>
+                                                <label class="switch_toggle">
+                                                    <input type="checkbox" class="status_enable_disable"
+                                                           name="show_country"
+                                                           value="1" {{ $field->show_country ? 'checked' : '' }}>
+                                                    <i class="slider round"></i>
+                                                </label>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-xl-6">
@@ -189,6 +198,15 @@
                                                     <input type="checkbox" class="status_enable_disable"
                                                            name="required_institute"
                                                            value="1" {{ $field->required_institute ? 'checked' : '' }}>
+                                                    <i class="slider round"></i>
+                                                </label>
+                                            </div>
+                                            <div class=" d-flex justify-content-between mb-3">
+                                                <p>{{ __('common.Country') }}</p>
+                                                <label class="switch_toggle">
+                                                    <input type="checkbox" class="status_enable_disable"
+                                                           name="required_country"
+                                                           value="1" {{ $field->required_country ? 'checked' : '' }}>
                                                     <i class="slider round"></i>
                                                 </label>
                                             </div>

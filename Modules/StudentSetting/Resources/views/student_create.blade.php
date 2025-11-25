@@ -5,6 +5,9 @@
 @endpush
 @php
     $table_name='users';
+    $custom_field = $custom_field ?? \App\StudentCustomField::getData();
+    $countries = $countries ?? collect();
+    $selectedCountry = old('country',isset($user)?$user->country:'');
 @endphp
 @section('table')
     {{$table_name}}
@@ -160,6 +163,30 @@
                                                 </select>
                                             </div>
                                         </div>
+                                        @if(($custom_field && $custom_field->show_country) || !$custom_field)
+                                            <div class="col-xl-6">
+                                                <div class="primary_input mb-25">
+                                                    <label class="primary_input_label"
+                                                           for="">{{__('common.Country')}}
+                                                        @if($custom_field && $custom_field->required_country)
+                                                            <strong class="text-danger">*</strong>
+                                                        @endif
+                                                    </label>
+                                                    <select class="primary_select" name="country">
+                                                        <option value="">{{__('common.Select')}} {{__('common.Country')}}</option>
+                                                        @foreach($countries as $country)
+                                                            <option value="{{$country->id}}"
+                                                                {{ (string)$selectedCountry === (string)$country->id ? 'selected' : '' }}>
+                                                                {{$country->name}}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                    @if($errors->has('country'))
+                                                        <span class="text-danger">{{ $errors->first('country') }}</span>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        @endif
 
                                         <div class="col-xl-6">
                                             <div class=" mb-35">

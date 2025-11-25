@@ -374,6 +374,10 @@ if (!function_exists('validationMessage')) {
             }
 
             foreach ($single_rule as $rule) {
+                if (!is_string($rule) || $rule === '') {
+                    // Skip Closure/object based rules as they don't offer translation keys.
+                    continue;
+                }
                 $string = explode(':', $rule);
                 $key = $attribute;
                 if (strpos($attribute, '.')) {
