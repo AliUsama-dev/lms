@@ -10,6 +10,7 @@ use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
@@ -181,11 +182,13 @@ class AppServiceProvider extends ServiceProvider
             View::composer(['backend.partials.sidebar', 'backend.partials.nav',], function ($view) use ($domain) {
 
                 $userId = 0;
+                $authUser = null;
                 if (Auth::check()) {
+                    $authUser = Auth::user();
                     if (isModuleActive('Org')) {
-                        $userId = Auth::user()->role_id;
+                        $userId = $authUser->role_id;
                     } else {
-                        $userId = Auth::id();
+                        $userId = $authUser->id;
                     }
                 }
 
@@ -214,6 +217,9 @@ class AppServiceProvider extends ServiceProvider
                         return [];
                     }
                 });
+                if ($this->shouldLimitSidebarToBasicLms($authUser)) {
+                    $data['sections'] = $this->limitSidebarToBasicLmsMenus($data['sections']);
+                }
 
                 $view->with($data);
             });
@@ -336,5 +342,51 @@ class AppServiceProvider extends ServiceProvider
                 return $socialite->buildProvider(GoogleDriveProvider::class, $config);
             }
         );
+    }
+
+    private function shouldLimitSidebarToBasicLms($user): bool
+    {
+        if (!$user) {
+            return false;
+        }
+        return (int)$user->role_id === 1;
+    }
+
+    private function limitSidebarToBasicLmsMenus($sections)
+    {
+        $allowedMenus = [
+            'students' => 'Students',
+            'courses' => 'Courses',
+            'instructors' => 'Instructor',
+            'settings' => 'Admin',
+        ];
+
+        $sections = collect($sections);
+
+        return $sections->map(function ($section) use ($allowedMenus) {
+            $menus = collect($section->getRelationValue('activeMenus'));
+            $submenus = collect($section->getRelationValue('activeSubmenus'));
+
+            $filteredMenus = $menus->filter(function ($menu) use ($allowedMenus) {
+                return array_key_exists($menu->route, $allowedMenus);
+            })->values();
+
+            $filteredMenus->each(function ($menu) use ($allowedMenus) {
+                $menu->name = $allowedMenus[$menu->route];
+            });
+
+            $section->setRelation('activeMenus', $filteredMenus);
+
+            $filteredSubmenus = $submenus->filter(function ($submenu) use ($allowedMenus) {
+                return array_key_exists($submenu->parent_route, $allowedMenus);
+            })->values();
+
+            $section->setRelation('activeSubmenus', $filteredSubmenus);
+
+            return $section;
+        })->filter(function ($section) {
+            $menus = $section->getRelationValue('activeMenus');
+            return $menus instanceof Collection ? $menus->isNotEmpty() : false;
+        })->values();
     }
 }
