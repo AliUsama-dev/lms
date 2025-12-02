@@ -213,7 +213,7 @@ return [
 "Welcome back. Please login" => "স্বাগতম. অনুগ্রহ করে লগ-ইন করুন",
 "Don’t have an account" => "অ্যাকাউন্ট নেই",
 "Welcome to Metamorphosis LMS" => "Metamorphosis LMS-এ স্বাগতম",
-"Learning Management System" => "Learning Management System",
+"Metamorphosis Learning Management System" => "Metamorphosis Learning Management System",
 "Excellence" => "চমৎকার",
 "Community" => "কমিউনিটি",
 "Diversity" => "বৈচিত্র্য",
