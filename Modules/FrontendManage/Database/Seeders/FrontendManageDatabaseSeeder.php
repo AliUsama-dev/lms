@@ -50,7 +50,7 @@ class FrontendManageDatabaseSeeder extends Seeder
         $faqs = [
             [
                 'question' => 'What is an LMS?',
-                'answer' => 'An LMS, or Learning Management System, is a software application designed to administer, track, and manage educational content and resources. It is commonly used in educational institutions and organizations for online learning and training.',
+                'answer' => 'An LMS, or Metamorphosis Learning Management System, is a software application designed to administer, track, and manage educational content and resources. It is commonly used in educational institutions and organizations for online learning and training.',
             ],
             [
                 'question' => 'How does an LMS work?',

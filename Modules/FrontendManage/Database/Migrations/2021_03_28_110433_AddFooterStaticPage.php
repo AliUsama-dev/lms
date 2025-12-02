@@ -138,9 +138,9 @@ class AddFooterStaticPage extends Migration
             $infixedu = FrontPage::where('slug', 'infixedu-for-business')->first();
             if (!$infixedu) {
                 DB::table('front_pages')->insert([
-                    'name' => 'Learn with InfixLMS',
-                    'title' => 'Learn with InfixLMS',
-                    'sub_title' => 'Learn with InfixLMS',
+                    'name' => 'Learn with MetamorphosisLMS',
+                    'title' => 'Learn with MetamorphosisLMS',
+                    'sub_title' => 'Learn with MetamorphosisLMS',
                     'details' => "'Think about your specific user experience, and the journey the user will go through as they navigate your site,' added Gabriel Shaoolian, CEO of website design and digital marketing agency Blue Fountain Media. 'Whatever the fundamental goal of your website is or whatever the focus may be, users should be easily able to achieve it, and the goal itself should be reinforced as users navigate throughout your site.'If you don't plan to accept payments through your website, you won't have as much work to do in setting it up. If you are a retailer or service provider and want to offer customers the option to pay online, you'll need to use an external service to receive your payments, which we'll discuss later in this article. ",
                     'slug' => 'infixedu-for-business',
                     'status' => 1,
@@ -161,9 +161,9 @@ class AddFooterStaticPage extends Migration
             $teach = FrontPage::where('slug', 'teach-on-infixedu')->first();
             if (!$teach) {
                 DB::table('front_pages')->insert([
-                    'name' => 'Teach on InfixEdu',
-                    'title' => 'Teach on InfixEdu',
-                    'sub_title' => 'Teach on InfixEdu',
+                    'name' => 'Teach on Metamorphosis',
+                    'title' => 'Teach on Metamorphosis',
+                    'sub_title' => 'Teach on Metamorphosis',
                     'details' => "From lesson plans and reproducibles to mini-books and differentiated collections, Scholastic Teachables has everything you need to go with your lessons in every subject. It’s the best of Scholastic classroom resources right at your fingertips.Best for Finding and Leveling Books: Book Wizard Use Scholastic’s Book Wizard to level your classroom library, discover resources for the books you teach, and find books at just the right level for students with Guided Reading, Lexile® Measure, and DRA levels for children's books. Best for Craft Projects: Crayola For Educators FInd hundreds of standards-based lesson plans, crafts, and activities for every grade level, plus art techniques for beginners to practiced artists. Here you will find what you need to supplement learning in every subject.",
                     'slug' => 'teach-on-infixedu',
                     'status' => 1,

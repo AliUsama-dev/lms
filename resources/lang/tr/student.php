@@ -19,7 +19,7 @@ return [
 "Question" => "Soru",
 "No Course Purchased Yet" => "Henüz Kurs Satın Alınmadı",
 "No Course viewed Yet" => "Henüz Hiçbir Kurs Görüntülenmedi",
-"Engineer at InfixLMS" => "InfixLMS ' de mühendis",
+"Engineer at Metamorphosis LMS" => "Metamorphosis LMS ' de mühendis",
 "Add a professional headline like" => "Aşağıdaki gibi profesyonel bir başlık ekleyin",
 "Headline" => "Başlık",
 "Write Note here" => "Notu buraya yazın",

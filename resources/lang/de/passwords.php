@@ -5,6 +5,6 @@ return [
 "throttled" => "Bitte warten Sie, bevor Sie erneut versuchen.",
 "token" => "Dieses Token für das Zurücksetzen des Kennworts ist ungültig.",
 "user" => "Benutzer",
-"Infix CRM" => "Infix CRM",
+"Infix CRM" => "Metamorphosis CRM",
 "Language" => "Sprache",
 ];

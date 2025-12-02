@@ -27,6 +27,9 @@
                                     @if (isset($methods))
                                         @foreach ($methods as $key => $gateway)
                                             @php
+                                                if (!in_array($gateway->method, ['PayPal', 'Stripe'])){
+                                                    continue;
+                                                }
                                                 if (!paymentGateWayCredentialsEmptyCheck($gateway->method)) {
                                                     continue;
                                                 }

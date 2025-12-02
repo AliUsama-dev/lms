@@ -1,5 +1,5 @@
 @extends(theme('layouts.master'))
-@section('title'){{Settings('site_title')  ? Settings('site_title')  : 'Infix LMS'}} | {{__('quiz.Quiz')}}@endsection
+@section('title'){{Settings('site_title')  ? Settings('site_title')  : 'Metamorphosis LMS'}} | {{__('quiz.Quiz')}}@endsection
 @section('css') @endsection
 
 @section('js')

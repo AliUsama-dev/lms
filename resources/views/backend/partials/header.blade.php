@@ -9,7 +9,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" href="{{asset(Settings('favicon'))}}{{assetVersion()}}" type="image/png"/>
     <title>
-        {{Settings('site_title')  ? Settings('site_title')  : 'Infix LMS'}}
+        {{Settings('site_title')  ? Settings('site_title')  : 'Metamorphosis LMS'}}
     </title>
     <meta name="_token" content="{!! csrf_token() !!}"/>
     @include('backend.partials.style')

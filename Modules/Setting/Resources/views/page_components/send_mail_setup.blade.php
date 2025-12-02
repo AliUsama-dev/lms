@@ -9,7 +9,7 @@
                 <div class="primary_input mb-25">
                     <label class="primary_input_label" for="">{{ __('setting.From Name') }}*</label>
                     <input class="primary_input_field"
-                           {{ $errors->has('from_name') ? ' autofocus' : '' }} placeholder="Infix CRM" type="text"
+                           {{ $errors->has('from_name') ? ' autofocus' : '' }} placeholder="Metamorphosis CRM" type="text"
                            name="from_name" value="{{@$send_mail_setting->from_name}}">
                 </div>
             </div>
@@ -17,7 +17,7 @@
                 <div class="primary_input mb-25">
                     <label class="primary_input_label" for="">{{ __('setting.From Mail') }}*</label>
                     <input class="primary_input_field"
-                           {{ $errors->has('from_email') ? ' autofocus' : '' }} placeholder="Infix CRM" type="text"
+                           {{ $errors->has('from_email') ? ' autofocus' : '' }} placeholder="Metamorphosis CRM" type="text"
                            name="from_email" value="{{@$send_mail_setting->from_email}}">
                 </div>
             </div>

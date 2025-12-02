@@ -19,7 +19,7 @@ return [
 "Question" => "Pergunta",
 "No Course Purchased Yet" => "Nenhum Curso Comprado Ainda",
 "No Course viewed Yet" => "Nenhum Curso visualizado Ainda",
-"Engineer at InfixLMS" => "Engenheiro em InfixLMS",
+"Engineer at Metamorphosis LMS" => "Engenheiro em Metamorphosis LMS",
 "Add a professional headline like" => "Adicionar uma manchete profissional como",
 "Headline" => "Manchete",
 "Write Note here" => "Nota de Gravação aqui",

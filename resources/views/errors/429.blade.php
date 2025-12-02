@@ -1,5 +1,5 @@
 @extends('errors.layout')
-@section('title'){{Settings('site_title')  ? Settings('site_title')  : 'Infix LMS'}} | {{ __('Too Many Requests')}} @endsection
+@section('title'){{Settings('site_title')  ? Settings('site_title')  : 'Metamorphosis LMS'}} | {{ __('Too Many Requests')}} @endsection
 @section('css') @endsection
 @section('js') @endsection
 

@@ -26,7 +26,7 @@ class CreateLoginPagesTable extends Migration
         app()->setLocale('en');
         LoginPage::withoutEvents(function () {
             $loginPage = new LoginPage();
-            $loginPage->title = 'Welcome to  Learning Management System';
+            $loginPage->title = 'Welcome to Metamorphosis Learning Management System';
             $loginPage->banner = 'public/frontend/infixlmstheme/img/banner/global.png';
             $loginPage->slogans1 = 'Excellence.';
             $loginPage->slogans2 = 'Community.';

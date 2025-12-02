@@ -34,13 +34,13 @@ class CreateThemesTable extends Migration
         DB::table('themes')->insert(
             [
                 'name' => 'infixlmstheme',
-                'title' => 'infix LMS Theme',
+                'title' => 'Metamorphosis LMS Theme',
                 'version' => '1.00',
                 'live_link' => '#',
                 'tags' => 'clean',
                 'folder_path' => 'infixlmstheme',
                 'image' => 'public/frontend/infixlmstheme/img/screenshort.jpg',
-                'description' => 'Infix LMS Default Theme',
+                'description' => 'Metamorphosis LMS Default Theme',
                 'is_active' => 1,
                 'status' => 1
             ]

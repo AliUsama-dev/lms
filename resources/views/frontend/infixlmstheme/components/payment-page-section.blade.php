@@ -46,6 +46,8 @@
                                             $payment_type = isModuleActive('Invoice') && $checkout->invoice ? $checkout->invoice->payment_type : null;
                                             if (isModuleActive('Invoice') && $payment_type == 2) {
                                                 $methods = $withMoule->where('method', 'Bank Payment');
+                                            } else {
+                                                $methods = $methods->whereIn('method', ['PayPal', 'Stripe']);
                                             }
 
                                         @endphp

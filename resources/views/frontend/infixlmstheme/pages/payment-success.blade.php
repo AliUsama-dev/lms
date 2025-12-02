@@ -1,7 +1,7 @@
 @php use Modules\Store\Entities\ProductSku; @endphp
 @extends(theme('layouts.master'))
 @section('title')
-    {{Settings('site_title')  ? Settings('site_title')  : 'Infix LMS'}} | @lang('frontend.Payment Success')
+    {{Settings('site_title')  ? Settings('site_title')  : 'Metamorphosis LMS'}} | @lang('frontend.Payment Success')
 @endsection
 @section('js')
     <script src="{{asset('public/frontend/infixlmstheme/js/lottie-player.min.js')}}"></script>

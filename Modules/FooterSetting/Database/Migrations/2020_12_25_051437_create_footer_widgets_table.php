@@ -96,8 +96,8 @@ class CreateFooterWidgetsTable extends Migration
 
 
             [
-                'name' => 'Learn with InfixLMS',
-                'slug' => Str::slug('Learn with InfixLMS'),
+                'name' => 'Learn with MetamorphosisLMS',
+                'slug' => Str::slug('Learn with MetamorphosisLMS'),
                 'user_id' => 1,
                 'category' => 2,
                 'page' => '',

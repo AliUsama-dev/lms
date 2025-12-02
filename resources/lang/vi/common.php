@@ -198,7 +198,7 @@ return [
     "Log in with Facebook" => "Đăng nhập với Facebook",
     "Log in with Google" => "Đăng nhập với Google",
     "Or" => "Hoặc là",
-    "Keep me up to date on Infix" => "Cho tôi hẹn hò với Infix",
+    "Keep me up to date on Metamorphosis" => "Cho tôi hẹn hò với Metamorphosis",
     "Required" => "Yêu cầu",
     "New" => "Mới",
     "Instructor Payout" => "Thanh toán viên thanh toán",

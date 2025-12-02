@@ -19,7 +19,7 @@ class AddSponserTtileColumnInHomeConent extends Migration
                 $table->string('sponsor_title')->default('Trusted by companies of all sizes');
             }
             if (!Schema::hasColumn('home_contents', 'sponsor_sub_title')) {
-                $table->string('sponsor_sub_title')->default('Thousands of students already add more focus to their work with InfixLMS.');
+                $table->string('sponsor_sub_title')->default('Thousands of students already add more focus to their work with MetamorphosisLMS.');
             }
 
             if (!Schema::hasColumn('home_contents', 'contact_page_body_image')) {

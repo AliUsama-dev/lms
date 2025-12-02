@@ -39,7 +39,7 @@ class CreateFooterCategoriesTable extends Migration
         ]);
         FooterCategory::create([
             'title' => 'Bottom Footer Part',
-            'description' => htmlspecialchars('<p>@InfixLMS - Ultimate Learning Management All Rights Reserved to - <a href="https://codecanyon.net/user/codethemes/portfolio" rel="noopener noreferrer" target="_blank" style="color: rgb(254, 23, 36);">CodeThemes</a></p>'),
+            'description' => htmlspecialchars('<p>@MetamorphosisLMS - Ultimate Learning Management All Rights Reserved to - <a href="https://codecanyon.net/user/codethemes/portfolio" rel="noopener noreferrer" target="_blank" style="color: rgb(254, 23, 36);">CodeThemes</a></p>'),
         ]);
 
     }

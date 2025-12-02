@@ -1,6 +1,6 @@
 @extends(theme('layouts.dashboard_master'))
 @section('title')
-    {{ Settings('site_title') ? Settings('site_title') : 'Infix LMS' }} |
+    {{ Settings('site_title') ? Settings('site_title') : 'Metamorphosis LMS' }} |
     @if (routeIs('myClasses'))
         {{ __('courses.Live Class') }}
     @elseif(routeIs('myQuizzes'))

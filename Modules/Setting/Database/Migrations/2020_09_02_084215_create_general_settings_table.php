@@ -18,7 +18,7 @@ class CreateGeneralSettingsTable extends Migration
     {
         Schema::create('general_settings', function (Blueprint $table) {
             $table->id();
-            $table->string('site_title')->nullable()->default('Infix LMS');
+            $table->string('site_title')->nullable()->default('Metamorphosis LMS');
             $table->longText('company_info')->nullable();
             $table->string('zip_code')->nullable();
             $table->string('vat_number')->nullable();
@@ -49,7 +49,7 @@ class CreateGeneralSettingsTable extends Migration
             $table->string('twitter')->default('https://twitter.com/');
             $table->string('youtube')->default('https://youtube.com/');
             $table->string('linkedin')->default('https://www.linkedin.com/');
-            $table->string('copyright_text')->default('Copyright © 2024 InfixLMS. All rights reserved');
+            $table->string('copyright_text')->default('Copyright © 2024 MetamorphosisLMS. All rights reserved');
             $table->float('commission')->default(40.00);
             $table->boolean('recapthca')->default(0);
             $table->string('recaptcha_key')->nullable();
@@ -93,7 +93,7 @@ class CreateGeneralSettingsTable extends Migration
         DB::table('general_settings')->insert([
             [
                 'id' => 1,
-                'site_title' => 'Infix LMS',
+                'site_title' => 'Metamorphosis LMS',
                 'address' => 'Al Khuwair, Muscat, Oman',
                 'phone' => '+968 9700 2784',
                 'email' => 'hello@aorasoft.com',
@@ -103,8 +103,8 @@ class CreateGeneralSettingsTable extends Migration
                 'system_version' => $version,
                 'zip_code' => '1205',
                 'active_status' => '1',
-                'copyright_text' => 'Copyright © 2024 InfixLMS. All rights reserved | Made By CodeThemes ',
-                'footer_copy_right' => 'Copyright © 2024 InfixLMS. All rights reserved | Made By  <a href="https://aorasoft.com" target="_blank"><span style="color:var(--system_primery_gredient1, #BF37FF)">CodeThemes</span></a>',                'created_at' => now(),
+                'copyright_text' => 'Copyright © 2024 MetamorphosisLMS. All rights reserved | Made By CodeThemes ',
+                'footer_copy_right' => 'Copyright © 2024 MetamorphosisLMS. All rights reserved | Made By  <a href="https://aorasoft.com" target="_blank"><span style="color:var(--system_primery_gredient1, #BF37FF)">CodeThemes</span></a>',                'created_at' => now(),
                 'updated_at' => now(),
             ]
         ]);

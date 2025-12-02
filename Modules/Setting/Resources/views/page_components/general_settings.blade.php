@@ -51,7 +51,7 @@
                         <div class="col-xl-12">
                             <div class="primary_input mb-25">
                                 <label class="primary_input_label" for="">{{ __('setting.Site Title') }}</label>
-                                <input class="primary_input_field" placeholder="Infix CRM" type="text" id="site_title"
+                                <input class="primary_input_field" placeholder="Metamorphosis CRM" type="text" id="site_title"
                                        name="site_title" value="{{ Settings('site_title') }}">
                             </div>
                         </div>
@@ -59,7 +59,7 @@
                         <div class="col-xl-6">
                             <div class="primary_input mb-25">
                                 <label class="primary_input_label" for="">{{__('common.Email')}}</label>
-                                <input class="primary_input_field" placeholder="demo@infix.com" type="email" id="email"
+                                <input class="primary_input_field" placeholder="demo@metamorphosis.com" type="email" id="email"
                                        name="email" value="{{ Settings('email') }}">
                             </div>
                         </div>

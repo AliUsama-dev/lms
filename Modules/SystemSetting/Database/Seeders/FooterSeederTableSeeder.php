@@ -39,7 +39,7 @@ class FooterSeederTableSeeder extends Seeder
         ]);
         FooterCategory::create([
             'title' => 'Bottom Footer Part',
-            'description' => '<p>Copyright © 2020 All rights reserved | This InfixLMS Application is made by <a href="https://codecanyon.net/user/codethemes/portfolio" rel="noopener noreferrer" target="_blank">Codethemes</a></p>',
+            'description' => '<p>Copyright © 2020 All rights reserved | This MetamorphosisLMS Application is made by <a href="https://codecanyon.net/user/codethemes/portfolio" rel="noopener noreferrer" target="_blank">Codethemes</a></p>',
         ]);
 
         $companies = ['About', 'Blog', 'Faq','Contact Us','Pricing Plan & Package','Privacy & Policy'];

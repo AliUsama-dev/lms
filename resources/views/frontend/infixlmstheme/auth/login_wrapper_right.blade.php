@@ -28,7 +28,7 @@
     <div class="login_main_info">
         <h4>
 
-            {{$title??'Welcome to Learning Management System'}}
+            {{$title??'Welcome to Metamorphosis Learning Management System'}}
         </h4>
         <div class="thumb">
             <img src="{{asset($banner??'public/frontend/infixlmstheme/img/banner/global.png')}}" alt="">

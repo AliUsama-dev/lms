@@ -9,7 +9,7 @@
 @extends($extend_file)
 
 @section('title')
-    {{Settings('site_title')  ? Settings('site_title')  : 'Infix LMS'}} | {{__('coupons.My Cart')}}
+    {{Settings('site_title')  ? Settings('site_title')  : 'Metamorphosis LMS'}} | {{__('coupons.My Cart')}}
 @endsection
 @section('css') @endsection
 

@@ -197,7 +197,7 @@
     "Log in with Facebook" => "ফেসবুকের সাথে লগ",
     "Log in with Google" => "গুগলের সাথে লগ",
     "Or" => "অথবা",
-    "Keep me up to date on Infix" => "ইনফিক্স-এ আমাকে ডেট করতে দিন",
+    "Keep me up to date on Metamorphosis" => "Metamorphosis-এ আমাকে ডেট করতে দিন",
     "Required" => "আবশ্যক",
     "New" => "নতুন",
     "Instructor Payout" => "Instructor Payout",

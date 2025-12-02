@@ -198,7 +198,7 @@ return [
     "Log in with Facebook" => "Facebook ile oturum açın",
     "Log in with Google" => "Google ile oturum açın",
     "Or" => "Ya da",
-    "Keep me up to date on Infix" => "Beni Infix ile çıkmak için güncel tut",
+    "Keep me up to date on Metamorphosis" => "Beni Metamorphosis ile çıkmak için güncel tut",
     "Required" => "Gerekli",
     "New" => "Yeni",
     "Instructor Payout" => "Eğitmen Ödeme",

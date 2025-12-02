@@ -16,7 +16,7 @@ class AddColumnIntoLoginPage extends Migration
         Schema::table('login_pages', function ($table) {
 
             if (!Schema::hasColumn('login_pages', 'reg_title')) {
-                $table->string('reg_title')->default('Welcome to  Learning Management System');
+                $table->string('reg_title')->default('Welcome to Metamorphosis Learning Management System');
             }
             if (!Schema::hasColumn('login_pages', 'reg_title')) {
                 $table->string('reg_banner')->default('public/frontend/infixlmstheme/img/banner/global.png');
@@ -33,7 +33,7 @@ class AddColumnIntoLoginPage extends Migration
 
 
             if (!Schema::hasColumn('login_pages', 'forget_title')) {
-                $table->string('forget_title')->default('Welcome to Learning Management System');
+                $table->string('forget_title')->default('Welcome to Metamorphosis Learning Management System');
             }
             if (!Schema::hasColumn('login_pages', 'forget_title')) {
                 $table->string('forget_banner')->default('public/frontend/infixlmstheme/img/banner/global.png');

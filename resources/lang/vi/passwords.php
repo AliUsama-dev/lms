@@ -5,6 +5,6 @@ return [
     "throttled" => "Vui lòng đợi trước khi thử lại.",
     "token" => "Token thiết lập lại mật khẩu này không hợp lệ.",
     "user" => "Người dùng",
-    "Infix CRM" => "CRM Infix",
+    "Infix CRM" => "CRM Metamorphosis",
     "Language" => "Ngôn ngữ",
 ];

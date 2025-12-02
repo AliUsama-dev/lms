@@ -34,8 +34,8 @@ class CreateLmsInstitutesTable extends Migration
 
         LmsInstitute::withoutEvents(function () {
             $default_lms = new LmsInstitute();
-            $default_lms->name = 'Infix Lms';
-            $default_lms->description = 'Infix Lms';
+            $default_lms->name = 'Metamorphosis Lms';
+            $default_lms->description = 'Metamorphosis Lms';
             $default_lms->address = '';
             $default_lms->domain = 'main';
             $default_lms->user_id = 1;
