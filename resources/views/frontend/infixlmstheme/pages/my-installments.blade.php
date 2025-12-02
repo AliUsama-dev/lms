@@ -1,6 +1,6 @@
 @extends(theme('layouts.dashboard_master'))
 @section('title')
-    {{ Settings('site_title') ? Settings('site_title') : 'Infix LMS' }} | {{ _trans('installment.My Installments') }}
+    {{ Settings('site_title') ? Settings('site_title') : 'Metamorphosis LMS' }} | {{ _trans('installment.My Installments') }}
 @endsection
 @section('css')
     <style>

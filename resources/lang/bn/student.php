@@ -19,7 +19,7 @@ return [
 "Question" => "প্রশ্নComment",
 "No Course Purchased Yet" => "কোন কোর্স পূরন করা হয়নি",
 "No Course viewed Yet" => "কোন কোর্স দেখা যায়নি",
-"Engineer at InfixLMS" => "InfixLMS-এ প্রকৌশলী",
+"Engineer at Metamorphosis LMS" => "Metamorphosis LMS-এ প্রকৌশলী",
 "Add a professional headline like" => "একটি পেশাদার শিরোনাম যোগ করুন",
 "Headline" => "হেডলাইন",
 "Write Note here" => "এখানে নোট লিখুন",

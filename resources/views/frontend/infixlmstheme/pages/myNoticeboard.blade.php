@@ -1,6 +1,6 @@
 @extends(theme('layouts.dashboard_master'))
 @section('title')
-    {{Settings('site_title')  ? Settings('site_title')  : 'Infix LMS'}} | {{__('noticeboard.Noticeboard')}}
+    {{Settings('site_title')  ? Settings('site_title')  : 'Metamorphosis LMS'}} | {{__('noticeboard.Noticeboard')}}
 @endsection
 @section('css')
 

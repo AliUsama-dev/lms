@@ -198,7 +198,7 @@ return [
     "Log in with Facebook" => "Войдите в систему Facebook",
     "Log in with Google" => "Войти в систему с помощью Google",
     "Or" => "Или",
-    "Keep me up to date on Infix" => "Держите меня до свидания.",
+    "Keep me up to date on Metamorphosis" => "Держите меня до свидания.",
     "Required" => "Обязательный",
     "New" => "Новый",
     "Instructor Payout" => "Payout инструктора",

@@ -1,5 +1,5 @@
 @extends(theme('layouts.master'))
-@section('title'){{Settings('site_title')  ? Settings('site_title')  : 'Infix LMS'}} | @if( routeIs('myClasses'))
+@section('title'){{Settings('site_title')  ? Settings('site_title')  : 'Metamorphosis LMS'}} | @if( routeIs('myClasses'))
     {{__('courses.Live Class')}}
 @elseif( routeIs('myQuizzes'))
     {{__('courses.My Quizzes')}}

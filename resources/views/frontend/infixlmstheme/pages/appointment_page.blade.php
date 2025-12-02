@@ -1,6 +1,6 @@
 @extends(theme('layouts.master'))
 @section('title')
-    {{Settings('site_title')  ? Settings('site_title')  : 'Infix LMS'}} | {{__('appointment.Appointment')}}
+    {{Settings('site_title')  ? Settings('site_title')  : 'Metamorphosis LMS'}} | {{__('appointment.Appointment')}}
 @endsection
 @section('css')
     @if(isRtl())

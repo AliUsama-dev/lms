@@ -1,6 +1,6 @@
 @extends(theme('layouts.dashboard_master'))
 @section('title')
-    {{Settings('site_title')  ? Settings('site_title')  : 'Infix LMS'}} | {{__('frontend.Question')}}
+    {{Settings('site_title')  ? Settings('site_title')  : 'Metamorphosis LMS'}} | {{__('frontend.Question')}}
 @endsection
 @section('css')
     <link rel="stylesheet" href="{{asset('public/frontend/infixlmstheme/css/support.css')}}{{assetVersion()}}">

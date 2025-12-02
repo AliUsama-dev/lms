@@ -18,7 +18,7 @@
   'Question' => 'سؤال',
   'No Course Purchased Yet' => 'لم يتم شراء البرنامج التدريبي بعد',
   'No Course viewed Yet' => 'لم يتم مشاهدة برنامج تدريبي حتى الآن',
-  'Engineer at InfixLMS' => 'مهندس في InfixLMS',
+  'Engineer at Metamorphosis LMS' => 'مهندس في Metamorphosis LMS',
   'Add a professional headline like' => 'اضافة عنوان محترف مثل',
   'Headline' => 'عنوان خارجي',
   'Write Note here' => 'كتابة ملاحظة هنا',

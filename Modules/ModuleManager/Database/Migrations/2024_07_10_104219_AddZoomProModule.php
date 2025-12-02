@@ -13,7 +13,7 @@ class AddZoomProModule extends Migration
         $totalCount = DB::table('modules')->count();
         $newModule = new Module();
         $newModule->name = 'ZoomPro';
-        $newModule->details = 'Zoom Pro Module For InfixLMS. It is used for Zoom pro features';
+        $newModule->details = 'Zoom Pro Module For MetamorphosisLMS. It is used for Zoom pro features';
         $newModule->status = 0;
         $newModule->order = $totalCount;
         $newModule->save();

@@ -1,6 +1,6 @@
 @extends(theme('layouts.dashboard_master'))
 @section('title')
-    {{Settings('site_title')  ? Settings('site_title')  : 'Infix LMS'}} | {{__('bundleSubscription.Bundle Course')}}
+    {{Settings('site_title')  ? Settings('site_title')  : 'Metamorphosis LMS'}} | {{__('bundleSubscription.Bundle Course')}}
 @endsection
 @section('css') @endsection
 @section('js') @endsection

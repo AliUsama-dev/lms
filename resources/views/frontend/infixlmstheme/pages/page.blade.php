@@ -1,5 +1,5 @@
 @extends(theme('layouts.master'))
-@section('title'){{Settings('site_title')  ? Settings('site_title')  : 'Infix LMS'}} | {{$page->title}} @endsection
+@section('title'){{Settings('site_title')  ? Settings('site_title')  : 'Metamorphosis LMS'}} | {{$page->title}} @endsection
 @section('css') @endsection
 @section('js') @endsection
 

@@ -20,7 +20,7 @@ return [
     'Question' => 'Question',
     'No Course Purchased Yet' => 'No Course Purchased Yet',
     'No Course viewed Yet' => 'No Course viewed Yet',
-    'Engineer at InfixLMS' => 'Engineer at InfixLMS',
+    'Engineer at Metamorphosis LMS' => 'Engineer at Metamorphosis LMS',
     'Add a professional headline like' => 'Add a professional headline like',
     'Headline' => 'Headline',
     'Write Note here' => 'Write Note here',

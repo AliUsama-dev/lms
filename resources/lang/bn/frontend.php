@@ -212,7 +212,7 @@ return [
 "to your account" => "আপনার অ্যাকাউন্ট",
 "Welcome back. Please login" => "স্বাগতম. অনুগ্রহ করে লগ-ইন করুন",
 "Don’t have an account" => "অ্যাকাউন্ট নেই",
-"Welcome to Infix LMS" => "ইনফিক্স LMS-এ স্বাগতম",
+"Welcome to Metamorphosis LMS" => "Metamorphosis LMS-এ স্বাগতম",
 "Learning Management System" => "Learning Management System",
 "Excellence" => "চমৎকার",
 "Community" => "কমিউনিটি",

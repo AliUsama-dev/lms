@@ -1,6 +1,6 @@
 @extends(theme('layouts.dashboard_master'))
 @section('title')
-    {{Settings('site_title')  ? Settings('site_title')  : 'Infix LMS'}} | Invoice
+    {{Settings('site_title')  ? Settings('site_title')  : 'Metamorphosis LMS'}} | Invoice
 @endsection
 @section('css')
     <link href="{{asset('public/frontend/infixlmstheme/css/my_invoice.css')}}{{assetVersion()}}" rel="stylesheet"/>

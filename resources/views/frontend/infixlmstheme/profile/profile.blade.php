@@ -1,7 +1,7 @@
 @extends(theme('layouts.master'))
 
 @section('title')
-    {{Settings('site_title')  ? Settings('site_title')  : 'Infix LMS'}} | {{__('profile.profile')}}
+    {{Settings('site_title')  ? Settings('site_title')  : 'Metamorphosis LMS'}} | {{__('profile.profile')}}
 @endsection
 
 @section('css')

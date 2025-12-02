@@ -19,7 +19,7 @@ return [
     "Question" => "Câu hỏi",
     "No Course Purchased Yet" => "Chưa Mua Được Tất Nhiên.",
     "No Course viewed Yet" => "Chưa nhìn thấy gì",
-    "Engineer at InfixLMS" => "Kỹ sư tại InfixLMS",
+    "Engineer at Metamorphosis LMS" => "Kỹ sư tại Metamorphosis LMS",
     "Add a professional headline like" => "Thêm tiêu đề chuyên nghiệp như",
     "Headline" => "Tiêu đề",
     "Write Note here" => "Ghi chú vào đây",

@@ -40,7 +40,7 @@
 
 @if(env('APP_SYNC') || config('app.demo_mode'))
     <a target="_blank" href="https://aorasoft.com/" class="float_button"> <i class="ti-shopping-cart-full"></i>
-        <h3>Purchase InfixLMS</h3>
+        <h3>Purchase Metamorphosis LMS</h3>
     </a>
 @endif
 @livewireScripts

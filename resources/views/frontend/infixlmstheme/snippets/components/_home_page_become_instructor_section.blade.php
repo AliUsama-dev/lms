@@ -29,7 +29,7 @@
                                     <img src="{{asset('public/frontend/infixlmstheme/img/services/2.png')}}" alt="">
                                 </div>
                                 <div class="cta_service_info">
-                                    <h4>Learn with InfixLMS.</h4>
+                                    <h4>Learn with Metamorphosis LMS.</h4>
                                     <p>Teach what you love. Corrector gives you the
                                         tools to create a course.</p>
                                     <a href="#" class="theme_btn small_btn">For your Business</a>

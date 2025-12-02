@@ -5,6 +5,6 @@ return [
 "throttled" => "Lütfen yeniden denemeden önce bekleyin.",
 "token" => "Bu parola sıfırlama simgesi geçersiz.",
 "user" => "Kullanıcı",
-"Infix CRM" => "Infix CRM",
+"Infix CRM" => "Metamorphosis CRM",
 "Language" => "Dil",
 ];

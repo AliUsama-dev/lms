@@ -539,7 +539,7 @@
 <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasTop" aria-labelledby="offcanvasTopLabel">
     <div class="offcanvas-header d-flex justify-content-between">
         <a href="{{url('/')}}" class="heading-logo d-block">
-            <img src="{{getLogoImage(Settings('logo') )}}" alt="Infix LMS">
+            <img src="{{getLogoImage(Settings('logo') )}}" alt="Metamorphosis LMS">
         </a>
         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>

@@ -1,6 +1,6 @@
 @extends(theme('layouts.master'))
 @section('title')
-    {{Settings('site_title')  ? Settings('site_title')  : 'Infix LMS'}} | @lang('frontendmanage.Payment Method')
+    {{Settings('site_title')  ? Settings('site_title')  : 'Metamorphosis LMS'}} | @lang('frontendmanage.Payment Method')
 @endsection
 @section('css')
     <link href="{{asset('public/frontend/infixlmstheme/css/select2.min.css')}}{{assetVersion()}}" rel="stylesheet"/>

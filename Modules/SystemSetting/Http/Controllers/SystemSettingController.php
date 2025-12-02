@@ -161,8 +161,8 @@ class SystemSettingController extends Controller
                     break;
             }
 
-            SaasEnvSetting(SaasDomain(), 'MAIL_FROM_NAME', $request->from_name ?? 'infixLMS');
-            SaasEnvSetting(SaasDomain(), 'MAIL_FROM_ADDRESS', $request->from_email ?? 'admin@infixlms.com');
+            SaasEnvSetting(SaasDomain(), 'MAIL_FROM_NAME', $request->from_name ?? 'MetamorphosisLMS');
+            SaasEnvSetting(SaasDomain(), 'MAIL_FROM_ADDRESS', $request->from_email ?? 'admin@metamorphosislms.com');
 
             if ($request->active_status == 1) {
                 EmailSetting::where('active_status', 1)->update(['active_status' => 0]);

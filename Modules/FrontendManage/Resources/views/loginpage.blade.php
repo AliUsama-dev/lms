@@ -72,7 +72,7 @@
                                                                                         for="">{{ __('frontendmanage.Title') }}</label>
                                                                                     <input
                                                                                         class="primary_input_field"
-                                                                                        placeholder="InfixLMS"
+                                                                                        placeholder="MetamorphosisLMS"
                                                                                         type="text"
                                                                                         id="site_title"
                                                                                         name="title[{{ $language->code }}]"
@@ -188,7 +188,7 @@
                                                                                         for="">{{ __('frontendmanage.Title') }}</label>
                                                                                     <input
                                                                                         class="primary_input_field"
-                                                                                        placeholder="InfixLMS"
+                                                                                        placeholder="MetamorphosisLMS"
                                                                                         type="text"
                                                                                         id="reg_title"
                                                                                         name="reg_title[{{ $language->code }}]"
@@ -298,7 +298,7 @@
                                                                                         for="forget_site_title">{{ __('frontendmanage.Title') }}</label>
                                                                                     <input
                                                                                         class="primary_input_field"
-                                                                                        placeholder="InfixLMS"
+                                                                                        placeholder="MetamorphosisLMS"
                                                                                         type="text"
                                                                                         id="forget_site_title"
                                                                                         name="forget_title[{{ $language->code }}]"

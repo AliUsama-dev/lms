@@ -1,6 +1,6 @@
 <?php
 return [
-"welcome_description" => "Vielen Dank für die Auswahl von InfixLMS für das Learning Management System. Bitte folgen Sie den Schritten, um InfixLMS Installation abzuschließen!",
+"welcome_description" => "Vielen Dank für die Auswahl von Metamorphosis LMS für das Learning Management System. Bitte folgen Sie den Schritten, um Metamorphosis LMS Installation abzuschließen!",
 "install_with_seed" => "Mit Demodaten installieren",
 "phone" => "Telefon",
 "address" => "Adresse",

@@ -19,7 +19,7 @@ return [
 "Question" => "Вопрос",
 "No Course Purchased Yet" => "Курс еще не приобретен",
 "No Course viewed Yet" => "Курс пока не просматривал",
-"Engineer at InfixLMS" => "Инженер в InfixLMS",
+"Engineer at Metamorphosis LMS" => "Инженер в Metamorphosis LMS",
 "Add a professional headline like" => "Добавить профессиональный заголовок like",
 "Headline" => "Заголовок",
 "Write Note here" => "Записать заметку здесь",

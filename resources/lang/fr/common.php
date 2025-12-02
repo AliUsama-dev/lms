@@ -198,7 +198,7 @@ return [
 "Log in with Facebook" => "Se connecter avec Facebook",
 "Log in with Google" => "Se connecter avec Google",
 "Or" => "Ou",
-"Keep me up to date on Infix" => "Garder-moi jusqu'à ce jour sur Infix",
+"Keep me up to date on Metamorphosis" => "Garder-moi jusqu'à ce jour sur Metamorphosis",
 "Required" => "Obligatoire",
 "New" => "Nouveau",
 "Instructor Payout" => "Payeur du formateur",

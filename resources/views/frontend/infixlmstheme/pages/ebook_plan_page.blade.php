@@ -1,5 +1,5 @@
 @extends(theme('layouts.master'))
-@section('title'){{Settings('site_title')  ? Settings('site_title')  : 'Infix LMS'}} | {{__('eLibrary.Ebook')}} @endsection
+@section('title'){{Settings('site_title')  ? Settings('site_title')  : 'Metamorphosis LMS'}} | {{__('eLibrary.Ebook')}} @endsection
 
 @section('mainContent')
 

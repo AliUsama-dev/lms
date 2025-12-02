@@ -2,7 +2,7 @@
 <input type="hidden" name="url" id="url" value="{{ URL::to('/') }}">
 
 @section('title')
-    {{ Settings('site_title') ? Settings('site_title') : 'Infix LMS' }} |
+    {{ Settings('site_title') ? Settings('site_title') : 'Metamorphosis LMS' }} |
     @if (routeIs('myAppointment'))
         {{ __('appointment.My Appointment') }}
     @elseif(routeIs('myClasses'))

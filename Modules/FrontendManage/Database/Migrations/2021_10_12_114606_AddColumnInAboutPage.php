@@ -44,7 +44,7 @@ class AddColumnInAboutPage extends Migration
             }
 
             if (!Schema::hasColumn('about_pages', 'sponsor_sub_title')) {
-                $table->string('sponsor_sub_title')->default('Thousands of students already add more focus to their work with InfixLMS.');
+                $table->string('sponsor_sub_title')->default('Thousands of students already add more focus to their work with MetamorphosisLMS.');
             }
 
 

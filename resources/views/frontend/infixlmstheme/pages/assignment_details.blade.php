@@ -1,6 +1,6 @@
 @extends(theme('layouts.master'))
 @section('title')
-    {{Settings('site_title')  ? Settings('site_title')  : 'Infix LMS'}} | {{__('assignment.Assignment')}}
+    {{Settings('site_title')  ? Settings('site_title')  : 'Metamorphosis LMS'}} | {{__('assignment.Assignment')}}
 @endsection
 @section('css')
     <link href="{{asset('public/backend/css/summernote-bs5.min.css/')}}" rel="stylesheet">
