@@ -27,11 +27,11 @@
                                 <div class="payment_method_wrapper">
                                     @if(isset($methods))
                                         @foreach($methods as $key=>$gateway)
-                                            {{--                                            @php--}}
-                                            {{--                                                if (!paymentGateWayCredentialsEmptyCheck($gateway->method)){--}}
-                                            {{--                                                continue;--}}
-                                            {{--                                                }--}}
-                                            {{--                                            @endphp--}}
+                                            @php
+                                                if (!in_array($gateway->method, ['PayPal', 'Stripe'])){
+                                                    continue;
+                                                }
+                                            @endphp
                                             <div class="payment_method_single">
                                                 <div
                                                     class="deposite_payment_wrapper customer_payment_wrapper">

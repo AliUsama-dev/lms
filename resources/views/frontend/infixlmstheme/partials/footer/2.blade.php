@@ -194,6 +194,9 @@
                                         if(empty($method->logo)){
                                             continue;
                                         }
+                                        if(!in_array($method->method, ['PayPal', 'Stripe'])){
+                                            continue;
+                                        }
                                     @endphp
                                     <img src="{{asset($method->logo)}}" class="payment-methods"
                                          alt="{{$method->method}}">
