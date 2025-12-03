@@ -11,14 +11,15 @@
                     $LanguageList = getLanguageList();
                     $path =asset(Settings('logo') );
                     $type = pathinfo($path, PATHINFO_EXTENSION);
-                    try {
-                        $data = file_get_contents($path);
-                    }catch (\Exception $e){
-                        $data='';
-                    }
+                    $data = '';
+                    // try {
+                    //     $data = file_get_contents($path);
+                    // }catch (\Exception $e){
+                    //     $data='';
+                    // }
                 @endphp
                 <input type="hidden" id="logo_img" value="{{base64_encode($data)}}">
-                <input type="hidden" id="logo_title" value="{{Settings('company_name')}}">
+                {{-- <input type="hidden" id="logo_title" value="{{Settings('company_name')}}"> --}}
                 <div class="small_logo_crm d-lg-none">
                     <a href="{{url('/')}}"> <img src="{{asset(Settings('logo'))}}" alt=""></a>
                 </div>
