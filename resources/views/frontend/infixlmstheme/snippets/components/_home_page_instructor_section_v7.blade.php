@@ -10,7 +10,6 @@
                 <h5>{{__('frontend.Making sure that our products exceed customer expectations')}}</h5>
             </div>
 
-
             <div data-type="component-nonExisting"
                  data-preview=""
                  data-table="users"

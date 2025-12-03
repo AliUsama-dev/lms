@@ -41,6 +41,9 @@
             const rtl = $('html').attr('dir');
             // instrucotr slider
             if ($(".instrucotr-slider").children().length > 0) {
+                const instructorCount = $(".instrucotr-slider").children().length;
+                // Disable loop if there are fewer instructors than items to display
+                const shouldLoop = instructorCount > 4;
 
                 $('.instrucotr-slider').owlCarousel({
                     nav: true,
@@ -49,10 +52,10 @@
                     dots: false,
                     items: 4,
                     lazyLoad: true,
-                    autoplay: true,
+                    autoplay: shouldLoop,
                     autoplayHoverPause: true,
                     autoplayTimeout: $('#slider_transition_time').val() * 1000,
-                    loop: true,
+                    loop: shouldLoop,
                     margin: 24,
                     stagePadding: 0,
                     responsive: {
