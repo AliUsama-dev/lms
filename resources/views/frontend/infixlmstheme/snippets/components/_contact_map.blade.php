@@ -135,7 +135,7 @@
 
                                     <h4>{{__('frontend.Address')}}</h4>
 
-                                    <p> {!!Settings('address')  ? Settings('address')  : 'Al Khuwair, Muscat, Oman' !!}</p>
+                                    <p> {!!Settings('address')  ? Settings('address')  : '+xyzxxxxxxx' !!}</p>
 
                                 </div>
                             </div>

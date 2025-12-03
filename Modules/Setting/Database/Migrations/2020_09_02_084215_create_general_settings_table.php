@@ -43,8 +43,8 @@ class CreateGeneralSettingsTable extends Migration
             $table->string('mail_protocol', 100)->nullable();
             $table->integer('time_zone_id')->nullable()->default(83);
             $table->integer('country_id')->nullable()->default(19);
-            $table->string('city')->nullable()->default('Dhaka');
-            $table->string('state')->nullable()->default('Dhaka');
+            $table->string('city')->nullable()->default('worldwide');
+            $table->string('state')->nullable()->default('worldwide');
             $table->string('fb')->default('https://facebook.com/');
             $table->string('twitter')->default('https://twitter.com/');
             $table->string('youtube')->default('https://youtube.com/');
@@ -94,17 +94,17 @@ class CreateGeneralSettingsTable extends Migration
             [
                 'id' => 1,
                 'site_title' => 'Metamorphosis LMS',
-                'address' => 'Al Khuwair, Muscat, Oman',
-                'phone' => '+968 9700 2784',
-                'email' => 'hello@aorasoft.com',
+                'address' => 'worldwide, anywhere, everywhere',
+                'phone' => '+xyzxxxxxxx',
+                'email' => 'hello@MetamorphosisLMS.com',
                 'logo' => 'public/uploads/settings/logo.png',
                 'logo2' => 'public/uploads/settings/logo.png',
                 'favicon' => 'public/uploads/settings/favicon.png',
                 'system_version' => $version,
                 'zip_code' => '1205',
                 'active_status' => '1',
-                'copyright_text' => 'Copyright © 2024 MetamorphosisLMS. All rights reserved | Made By CodeThemes ',
-                'footer_copy_right' => 'Copyright © 2024 MetamorphosisLMS. All rights reserved | Made By  <a href="https://aorasoft.com" target="_blank"><span style="color:var(--system_primery_gredient1, #BF37FF)">CodeThemes</span></a>',                'created_at' => now(),
+                'copyright_text' => 'Copyright © 2025 MetamorphosisLMS. All rights reserved',
+                'footer_copy_right' => 'Copyright © 2025 MetamorphosisLMS. All rights reserved','created_at' => now(),
                 'updated_at' => now(),
             ]
         ]);

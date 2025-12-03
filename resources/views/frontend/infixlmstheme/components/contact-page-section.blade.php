@@ -21,7 +21,7 @@
                                                     <div class="single_address_line d-flex">
                                                         <i class="ti-direction-alt"></i>
                                                         <div class="address_info">
-                                                            <p> {!!Settings('address')  ? Settings('address')  : 'Al Khuwair, Muscat, Oman' !!}</p>
+                                                            <p> {!!Settings('address')  ? Settings('address')  : '+xyzxxxxxxx' !!}</p>
 
                                                         </div>
                                                     </div>
