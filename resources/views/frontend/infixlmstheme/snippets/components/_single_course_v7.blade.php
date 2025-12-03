@@ -95,6 +95,9 @@
             const navRight = '<svg width="23" height="18" viewBox="0 0 23 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15.1875 17.8125L23 9.99996V7.81245L15.1875 -8.7738e-05L12.9687 2.18742L18.0937 7.3437H0.6875L0.6875 10.4687H18.0937L12.9375 15.625L15.1875 17.8125Z" fill="currentColor"/></svg>'
 
             if ($(".popular-course-carousel").children().length > 0) {
+                const courseCount = $(".popular-course-carousel").children().length;
+                // Disable loop if there are fewer courses than items to display
+                const shouldLoop = courseCount > 4;
 
                 $('.popular-course-carousel').owlCarousel({
                     nav: true,
@@ -102,10 +105,10 @@
                     dots: true,
                     items: 4,
                     lazyLoad: true,
-                    autoplay: true,
+                    autoplay: shouldLoop,
                     autoplayHoverPause: true,
                     autoplayTimeout: $('#slider_transition_time').val() * 1000,
-                    loop: true,
+                    loop: shouldLoop,
                     margin: 24,
                     stagePadding: 0,
                     rtl: isRtl,

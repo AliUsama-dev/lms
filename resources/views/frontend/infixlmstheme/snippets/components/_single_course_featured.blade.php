@@ -102,6 +102,9 @@
         jQuery(document).ready(function () {
             const rtl = $('html').attr('dir');
             if ($(".featured-slider").children().length > 0) {
+                const courseCount = $(".featured-slider").children().length;
+                // Disable loop if there is only one course (since items: 1)
+                const shouldLoop = courseCount > 1;
 
                 $('.featured-slider').owlCarousel({
                     nav: false,
@@ -110,10 +113,10 @@
                     dots: true,
                     items: 1,
                     lazyLoad: true,
-                    autoplay: true,
+                    autoplay: shouldLoop,
                     autoplayHoverPause: false,
                     autoplayTimeout: $('#slider_transition_time').val() * 1000,
-                    loop: true,
+                    loop: shouldLoop,
                     margin: 0,
 
                 });
