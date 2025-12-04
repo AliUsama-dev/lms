@@ -143,7 +143,8 @@
                                                        type="text" {{$errors->first('company') ? 'autofocus' : ''}}>
                                             </div>
                                         </div>
-                                        @php
+                                        {{-- Hide institutes field when adding/editing student --}}
+                                        {{-- @php
                                             $selectedInstitute =isset($user)?$user->institute_id:'';
                                         @endphp
                                         <div class="col-xl-6">
@@ -162,7 +163,7 @@
                                                     @endforeach
                                                 </select>
                                             </div>
-                                        </div>
+                                        </div> --}}
                                         @if(($custom_field && $custom_field->show_country) || !$custom_field)
                                             <div class="col-xl-6">
                                                 <div class="primary_input mb-25">

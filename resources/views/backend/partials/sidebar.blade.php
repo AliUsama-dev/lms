@@ -180,6 +180,10 @@
                                                            }
                                                        }
                                                     @endphp
+                                                    {{-- Hide institutes menu item from sidebar --}}
+                                                    @if($submenu->route == 'student.institute.index')
+                                                        @continue
+                                                    @endif
                                                     @if(permissionCheck($submenu->route))
                                                         @if(!$submenu->module ||  isModuleActive($submenu->module))
                                                             @php
