@@ -140,6 +140,10 @@
                                 @endif
                             @endif
 
+                            @if($menu->route == 'setting.media-manager' || $menu->route == 'reviews')
+                                @continue
+                            @endif
+
                             @if(permissionCheck($menu->route))
 
                                 @if(!$menu->module ||  isModuleActive($menu->module))
