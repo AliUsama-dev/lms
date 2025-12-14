@@ -33,7 +33,7 @@
                     <i class="ti-menu"></i>
                 </button>
 
-                @if($user->sidebar==1)
+                @if($user->sidebar==1 && $user->role_id != 1)
                     <div class="collaspe_icon open_miniSide">
                         <i class="ti-menu"></i>
                     </div>
@@ -113,47 +113,49 @@
                             </a>
                         </li>
 
-                        <li class="d-flex" data-bs-toggle="tooltip" data-bs-placement="bottom"
-                            title="{{__('common.Toggle Sidebar')}}" data-bs-custom-class="tooltip-zindex">
-                            <button class="nav-layout-toggler   p-0">
-                                @if($user->sidebar!=1)
-                                    <a href="{{route('changeMenuStyle','sidebar')}}">
-                                        <svg class="sidebar" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                             xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M9 22H15C20 22 22 20 22 15V9C22 4 20 2 15 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22Z"
-                                                stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                                                stroke-linejoin="round"/>
-                                            <path d="M10 2V22" stroke="currentColor" stroke-width="1.5"
-                                                  stroke-linecap="round"
-                                                  stroke-linejoin="round"/>
-                                            <path d="M10 8.5H22" stroke="currentColor" stroke-width="1.5"
-                                                  stroke-linecap="round"
-                                                  stroke-linejoin="round"/>
-                                            <path d="M10 15.5H22" stroke="currentColor" stroke-width="1.5"
-                                                  stroke-linecap="round" stroke-linejoin="round"/>
-                                        </svg>
-                                    </a>
-                                @else
-                                    <a href="{{route('changeMenuStyle','topbar')}}">
-                                        <svg class="top_nav_fixed" width="24" height="24" viewBox="0 0 24 24"
-                                             fill="none"
-                                             xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M9 22H15C20 22 22 20 22 15V9C22 4 20 2 15 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22Z"
-                                                stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                                                stroke-linejoin="round"/>
-                                            <path d="M22 10H2" stroke="currentColor" stroke-width="1.5"
-                                                  stroke-linecap="round"
-                                                  stroke-linejoin="round"/>
-                                            <path d="M12 10V22" stroke="currentColor" stroke-width="1.5"
-                                                  stroke-linecap="round"
-                                                  stroke-linejoin="round"/>
-                                        </svg>
-                                    </a>
-                                @endif
-                            </button>
-                        </li>
+                        @if($user->role_id != 1)
+                            <li class="d-flex" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                title="{{__('common.Toggle Sidebar')}}" data-bs-custom-class="tooltip-zindex">
+                                <button class="nav-layout-toggler   p-0">
+                                    @if($user->sidebar!=1)
+                                        <a href="{{route('changeMenuStyle','sidebar')}}">
+                                            <svg class="sidebar" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M9 22H15C20 22 22 20 22 15V9C22 4 20 2 15 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22Z"
+                                                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                                    stroke-linejoin="round"/>
+                                                <path d="M10 2V22" stroke="currentColor" stroke-width="1.5"
+                                                      stroke-linecap="round"
+                                                      stroke-linejoin="round"/>
+                                                <path d="M10 8.5H22" stroke="currentColor" stroke-width="1.5"
+                                                      stroke-linecap="round"
+                                                      stroke-linejoin="round"/>
+                                                <path d="M10 15.5H22" stroke="currentColor" stroke-width="1.5"
+                                                      stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                        </a>
+                                    @else
+                                        <a href="{{route('changeMenuStyle','topbar')}}">
+                                            <svg class="top_nav_fixed" width="24" height="24" viewBox="0 0 24 24"
+                                                 fill="none"
+                                                 xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M9 22H15C20 22 22 20 22 15V9C22 4 20 2 15 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22Z"
+                                                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                                    stroke-linejoin="round"/>
+                                                <path d="M22 10H2" stroke="currentColor" stroke-width="1.5"
+                                                      stroke-linecap="round"
+                                                      stroke-linejoin="round"/>
+                                                <path d="M12 10V22" stroke="currentColor" stroke-width="1.5"
+                                                      stroke-linecap="round"
+                                                      stroke-linejoin="round"/>
+                                            </svg>
+                                        </a>
+                                    @endif
+                                </button>
+                            </li>
+                        @endif
 
                         <!-- Theme Toggler start -->
                         <li class="d-none d-sm-block" data-bs-toggle="tooltip" data-bs-placement="bottom"

@@ -97,6 +97,10 @@
                             continue;
                         }
                     @endphp
+                    {{-- Hide Administration and Communication sections from Super Admin sidebar --}}
+                    @if(auth()->user()->role_id == 1 && !empty($section->name) && (stripos(strtolower($section->name), 'administration') !== false || stripos(strtolower($section->name), 'communication') !== false))
+                        @continue
+                    @endif
                     @if(!empty($section->name))
                         <span class="menu_seperator">
                     {{$section->name}}
@@ -136,6 +140,10 @@
 
                             @if(auth()->user()->role_id==1)
                                 @if($menu->route == 'users.my_panel.index')
+                                    @continue
+                                @endif
+                                {{-- Hide Frontend CMS and Blog from Super Admin sidebar --}}
+                                @if($menu->route == 'frontend_CMS' || $menu->route == 'blogs')
                                     @continue
                                 @endif
                             @endif
