@@ -34,8 +34,12 @@
         });
 
         $sectionWidgets['one'] = $sectionWidgetsData->where('section', '1');
-        $sectionWidgets['two'] = $sectionWidgetsData->where('section', '2');
-        $sectionWidgets['three'] = $sectionWidgetsData->where('section', '3');
+        $sectionWidgets['two'] = $sectionWidgetsData->where('section', '2')->reject(function ($widget) {
+            return strtolower($widget->name) === 'teach on infixedu';
+        });
+        $sectionWidgets['three'] = $sectionWidgetsData->where('section', '3')->reject(function ($widget) {
+            return strtolower($widget->name) === 'blog';
+        });
 @endphp
 <footer
     class="footer footer2 {{Settings('footer_show')==0?'d-none d-sm-none d-md-block d-lg-block d-xl-block':''}} position-relative overflow-hidden section-margin">
