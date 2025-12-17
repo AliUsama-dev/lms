@@ -151,7 +151,7 @@
                                     @php
                                         $menuNameLower = strtolower(trim($menu->name));
                                     @endphp
-                                    @if($menuNameLower == 'communication')
+                                    @if($menuNameLower == 'communication' || $menuNameLower == 'communications')
                                         @continue
                                     @endif
                                     @if(stripos(strtolower($menu->name), 'q&a') !== false || $menuNameLower == 'qa' || $menuNameLower == 'q&a')
