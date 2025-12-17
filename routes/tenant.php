@@ -145,6 +145,12 @@ Route::group(['namespace' => 'Frontend', 'middleware' => ['auth']], function () 
 });
 Route::group(['namespace' => 'Frontend', 'middleware' => ['student']], function () {
     Route::get('student-dashboard', 'StudentController@myDashboard')->name('studentDashboard');
+    
+    // Chatbot routes for students
+    Route::get('chatbot/available', 'ChatbotController@getAvailableChatbots')->name('student.chatbot.available');
+    Route::get('chatbot/course/{courseId}', 'ChatbotController@getCourseChatbot')->name('student.chatbot.course');
+    Route::post('chatbot/chat', 'ChatbotController@chat')->name('student.chatbot.chat');
+    
     Route::get('my-courses', 'StudentController@myCourses')->name('myCourses');
     Route::get('my-classes', 'StudentController@myCourses')->name('myClasses');
     Route::get('my-online-course', 'StudentController@myCourses')->name('myOnlineCourse');
@@ -317,6 +323,15 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.', 'mi
     Route::get('/all/cancel-list-data', 'AdminController@getCancelLogsData')->name('getCancelLogsData')->middleware('RoutePermissionCheck:admin.enrollLogs');
     Route::get('/all/payout-data', 'AdminController@getPayoutData')->name('getPayoutData');
 
+    // Chatbot Management Routes (Third-party API Integration)
+    Route::prefix('chatbot')->name('chatbot.')->group(function () {
+        Route::get('/', 'ChatbotController@index')->name('index');
+        Route::get('/data', 'ChatbotController@getChatbots')->name('data');
+        Route::post('/', 'ChatbotController@store')->name('store');
+        Route::get('/{id}', 'ChatbotController@show')->name('show');
+        Route::put('/{id}', 'ChatbotController@update')->name('update');
+        Route::delete('/{id}', 'ChatbotController@destroy')->name('destroy');
+    });
 
 });
 
