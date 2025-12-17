@@ -1,4 +1,4 @@
 
 # for the chatbot or additional Api for admin
 CHATBOT_API_BASE_URL=http://127.0.0.1:8000
-CHATBOT_API_KEY=sk_live_9f3a2c8d7b4e6a1f5c0e9d2b8a7c4f6e
+CHATBOT_API_KEY=yourkey
