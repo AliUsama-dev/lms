@@ -98,7 +98,7 @@
                         }
                     @endphp
                     {{-- Hide Administration and Communication sections from Super Admin sidebar --}}
-                    @if(auth()->user()->role_id == 1 && !empty($section->name) && (stripos(strtolower($section->name), 'administration') !== false || stripos(strtolower($section->name), 'communication') !== false))
+                    @if(auth()->user()->role_id == 1 && !empty($section->name) && (stripos(strtolower($section->name), 'administration') !== false ))
                         @continue
                     @endif
                     @if(!empty($section->name))
@@ -146,6 +146,18 @@
                                 @if($menu->route == 'frontend_CMS' || $menu->route == 'blogs')
                                     @continue
                                 @endif
+                                {{-- Hide Communication tab, Q&A from Communication section for Super Admin sidebar --}}
+                                @if(!empty($section->name) && stripos(strtolower($section->name), 'communication') !== false)
+                                    @php
+                                        $menuNameLower = strtolower(trim($menu->name));
+                                    @endphp
+                                    @if($menuNameLower == 'communication')
+                                        @continue
+                                    @endif
+                                    @if(stripos(strtolower($menu->name), 'q&a') !== false || $menuNameLower == 'qa' || $menuNameLower == 'q&a')
+                                        @continue
+                                    @endif
+                                @endif
                             @endif
 
                             @if($menu->route == 'setting.media-manager' || $menu->route == 'reviews')
@@ -191,6 +203,14 @@
                                                     {{-- Hide institutes menu item from sidebar --}}
                                                     @if($submenu->route == 'student.institute.index')
                                                         @continue
+                                                    @endif
+                                                    {{-- Hide blog comment submenu from Comments in Communication section for Super Admin sidebar --}}
+                                                    @if(auth()->user()->role_id == 1 && !empty($section->name) && stripos(strtolower($section->name), 'communication') !== false)
+                                                        @if(!empty($menu->name) && stripos(strtolower($menu->name), 'comment') !== false)
+                                                            @if(stripos(strtolower($submenu->name), 'blog comment') !== false)
+                                                                @continue
+                                                            @endif
+                                                        @endif
                                                     @endif
                                                     @if(permissionCheck($submenu->route))
                                                         @if(!$submenu->module ||  isModuleActive($submenu->module))
