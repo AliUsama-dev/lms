@@ -154,9 +154,6 @@
                                     @if($menuNameLower == 'communication' || $menuNameLower == 'communications')
                                         @continue
                                     @endif
-                                    @if(stripos(strtolower($menu->name), 'q&a') !== false || $menuNameLower == 'qa' || $menuNameLower == 'q&a')
-                                        @continue
-                                    @endif
                                 @endif
                             @endif
 
