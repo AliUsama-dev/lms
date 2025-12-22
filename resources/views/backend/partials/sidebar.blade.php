@@ -233,6 +233,20 @@
                 @endforeach
             @endif
         @endif
+
+        {{-- Chatbot Management Menu (Third-party API Integration) --}}
+        @if(auth()->user()->role_id == 1)
+            <li>
+                <a href="{{ route('admin.chatbot.index') }}" class="{{ request()->routeIs('admin.chatbot.*') ? 'active' : '' }}">
+                    <div class="nav_icon_small">
+                        <span class="fas fa-robot"></span>
+                    </div>
+                    <div class="nav_title">
+                        <span>Chatbot Management</span>
+                    </div>
+                </a>
+            </li>
+        @endif
     </ul>
 
 </nav>

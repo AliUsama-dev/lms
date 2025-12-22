@@ -75,6 +75,24 @@
                 </div>
             </div>
         </div>
+        <div class="row mt-20">
+            <div class="col-xl-6">
+                <div class="primary_input mb-25">
+                    <label class="primary_input_label" for="chatbot_id">Assign Chatbot (Optional)</label>
+                    <select class="primary_select" name="chatbot_id" id="chatbot_id">
+                        <option data-display="Select Chatbot" value="">No Chatbot</option>
+                        @if(isset($chatbots) && count($chatbots) > 0)
+                            @foreach($chatbots as $chatbot)
+                                <option value="{{$chatbot['id']}}" {{@$course->chatbot_id == $chatbot['id'] ? 'selected' : ''}}>
+                                    {{$chatbot['name']}}
+                                </option>
+                            @endforeach
+                        @endif
+                    </select>
+                    <small class="text-muted">Students enrolled in this course can chat with the assigned chatbot</small>
+                </div>
+            </div>
+        </div>
 
         <div class="row">
             <div class="col-lg-6">

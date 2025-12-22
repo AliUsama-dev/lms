@@ -40,6 +40,7 @@ use Modules\Quiz\Entities\OnlineQuiz;
 use Modules\Quiz\Entities\QuestionBank;
 use Modules\Quiz\Entities\QuestionGroup;
 use Modules\Quiz\Entities\QuestionLevel;
+use App\Http\Controllers\Admin\ChatbotController;
 use Yajra\DataTables\DataTables;
 
 class CourseSettingController extends Controller
@@ -296,6 +297,11 @@ class CourseSettingController extends Controller
                 $course->quiz_id = (int)$request->quiz;
                 $course->category_id = null;
                 $course->subcategory_id = null;
+            }
+            
+            // Assign chatbot if provided
+            if ($request->filled('chatbot_id')) {
+                $course->chatbot_id = $request->chatbot_id;
             }
 
 
@@ -600,6 +606,13 @@ class CourseSettingController extends Controller
             $course->drip = (int)$request->get('drip', 0);
             $course->complete_order = (int)$request->complete_order;
             $course->lang_id = $request->language;
+            
+            // Update chatbot assignment
+            if ($request->filled('chatbot_id')) {
+                $course->chatbot_id = $request->chatbot_id;
+            } else {
+                $course->chatbot_id = null;
+            }
 
             if (isModuleActive('Org')) {
                 $course->setTranslation('title', 'en', $request->title[$code]);
@@ -903,9 +916,17 @@ class CourseSettingController extends Controller
 
             $certificates = $certificates_query->latest()->get();
             $questionGroups = QuestionGroup::select('id', 'title')->where('active_status', 1)->get();
+            
+            // Get available chatbots for course assignment
+            $chatbots = [];
+            try {
+                $chatbotController = new ChatbotController();
+                $chatbots = $chatbotController->getAvailableChatbots();
+            } catch (Exception $e) {
+                // If chatbot API is not available, continue without chatbots
+            }
 
-
-            return view('coursesetting::course_details', compact('data', 'bank', 'vdocipher_list', 'levels', 'video_list', 'course', 'chapters', 'categories', 'instructors', 'languages', 'course_exercises', 'quizzes', 'certificates', 'questionGroups'));
+            return view('coursesetting::course_details', compact('data', 'bank', 'vdocipher_list', 'levels', 'video_list', 'course', 'chapters', 'categories', 'instructors', 'languages', 'course_exercises', 'quizzes', 'certificates', 'questionGroups', 'chatbots'));
 
         } catch (Exception $e) {
             Toastr::error(trans('common.Operation failed'), trans('common.Failed'));
@@ -1135,7 +1156,15 @@ class CourseSettingController extends Controller
 
             $data['certificates'] = $certificates_query->latest()->get();
         }
-
+        
+        // Get available chatbots for course assignment
+        $data['chatbots'] = [];
+        try {
+            $chatbotController = new ChatbotController();
+            $data['chatbots'] = $chatbotController->getAvailableChatbots();
+        } catch (Exception $e) {
+            // If chatbot API is not available, continue without chatbots
+        }
 
         return view('coursesetting::course_details', $data);
 
@@ -1465,13 +1494,22 @@ class CourseSettingController extends Controller
         $title = trans('courses.All');
 
         $sub_lists = $this->getSubscriptionList();
+        
+        // Get available chatbots for course assignment
+        $chatbots = [];
+        try {
+            $chatbotController = new ChatbotController();
+            $chatbots = $chatbotController->getAvailableChatbots();
+        } catch (Exception $e) {
+            // If chatbot API is not available, continue without chatbots
+        }
 
         $subjects = [];
         if (currentTheme() == 'tvt') {
             $subjects = SchoolSubject::where('status', 1)->orderBy('order', 'asc')->get();
 
         }
-        return view('coursesetting::add_course', compact('subjects', 'sub_lists', 'levels', 'video_list', 'vdocipher_list', 'title', 'quizzes', 'categories', 'languages', 'instructors', 'vdocipher_list'));
+        return view('coursesetting::add_course', compact('subjects', 'sub_lists', 'levels', 'video_list', 'vdocipher_list', 'title', 'quizzes', 'categories', 'languages', 'instructors', 'vdocipher_list', 'chatbots'));
 
 
     }
