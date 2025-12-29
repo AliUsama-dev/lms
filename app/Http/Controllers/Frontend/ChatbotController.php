@@ -9,6 +9,8 @@ use Exception;
 use Modules\CourseSetting\Entities\Course;
 use Modules\CourseSetting\Entities\CourseEnrolled;
 use Illuminate\Support\Facades\Auth;
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\RequestException;
 
 class ChatbotController extends Controller
 {
@@ -140,17 +142,24 @@ class ChatbotController extends Controller
             $baseUrl = rtrim($this->getApiBaseUrl(), '/');
             $url = $baseUrl . '/api/chatbot/user/chat/?stream=true';
 
-            // Prepare request data
+            // Prepare request data - ensure we get actual string values
+            $query = $request->input('query', '');
+            $chatbotId = $request->input('chatbot_id', '');
+            
+            // Ensure values are strings, not objects or arrays
+            $query = is_string($query) ? $query : (string)$query;
+            $chatbotId = is_string($chatbotId) ? $chatbotId : (string)$chatbotId;
+            
             $data = [
-                'query' => $request->query,
-                'chatbot_id' => $request->chatbot_id,
+                'query' => $query,
+                'chatbot_id' => $chatbotId,
             ];
 
             // Prepare headers
             $headers = [
                 config('chatbot.api_key_header', 'X-API-Key') => config('chatbot.api_key', ''),
                 'Content-Type' => 'application/json',
-                'Accept' => 'text/event-stream',
+                'Accept' => '*/*', // Accept any content type - server determines format based on ?stream=true
             ];
 
             // Stream the response using Laravel's HTTP client
@@ -160,14 +169,54 @@ class ChatbotController extends Controller
                     'headers' => $headers,
                 ]);
 
-                $response = $client->request('POST', $url, [
-                    'json' => $data,
-                    'stream' => true,
-                ]);
+                try {
+                    $response = $client->request('POST', $url, [
+                        'json' => $data,
+                        'stream' => true,
+                    ]);
 
-                $body = $response->getBody();
-                while (!$body->eof()) {
-                    echo $body->read(1024);
+                    $body = $response->getBody();
+                    while (!$body->eof()) {
+                        echo $body->read(1024);
+                        if (ob_get_level() > 0) {
+                            ob_flush();
+                        }
+                        flush();
+                    }
+                } catch (ClientException $e) {
+                    // Handle 4xx errors
+                    $response = $e->getResponse();
+                    $statusCode = $response ? $response->getStatusCode() : 400;
+                    $errorBody = $response ? $response->getBody()->getContents() : $e->getMessage();
+                    
+                    // Try to parse JSON error response
+                    $errorData = json_decode($errorBody, true);
+                    $errorMessage = $errorData['message'] ?? $errorData['error'] ?? $errorBody ?? $e->getMessage();
+                    
+                    echo "data: " . json_encode([
+                        'error' => true,
+                        'message' => $errorMessage,
+                        'status' => $statusCode
+                    ]) . "\n\n";
+                    
+                    if (ob_get_level() > 0) {
+                        ob_flush();
+                    }
+                    flush();
+                } catch (RequestException $e) {
+                    // Handle other request errors
+                    $errorMessage = $e->getMessage();
+                    if ($e->hasResponse()) {
+                        $errorBody = $e->getResponse()->getBody()->getContents();
+                        $errorData = json_decode($errorBody, true);
+                        $errorMessage = $errorData['message'] ?? $errorData['error'] ?? $errorBody ?? $e->getMessage();
+                    }
+                    
+                    echo "data: " . json_encode([
+                        'error' => true,
+                        'message' => $errorMessage
+                    ]) . "\n\n";
+                    
                     if (ob_get_level() > 0) {
                         ob_flush();
                     }
