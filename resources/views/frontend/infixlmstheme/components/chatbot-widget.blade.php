@@ -1,16 +1,11 @@
 @php
-    // Get enrolled courses with chatbots
-    $enrolledCourses = \Modules\CourseSetting\Entities\CourseEnrolled::where('user_id', Auth::id())
-        ->whereHas('course', function($q) {
-            $q->whereNotNull('chatbot_id');
-        })
-        ->with('course')
-        ->latest()
-        ->limit(5)
-        ->get();
+    // OLD CHATBOT WIDGET - COMPLETELY DISABLED
+    // This widget has been replaced by the floating chatbot icon
+    // See: floating-chatbot.blade.php
 @endphp
 
-@if(count($enrolledCourses) > 0)
+{{-- OLD WIDGET DISABLED - DO NOT RENDER --}}
+@if(false)
     <div class="dashboard_card chatbot-widget">
         <div class="head d-flex align-items-center justify-content-between mb-4">
             <h4>Course Chatbot Assistant</h4>
@@ -47,6 +42,8 @@
     </div>
 @endif
 
+{{-- OLD WIDGET COMPLETELY DISABLED - STYLES AND JS ALSO DISABLED --}}
+@if(false)
 @push('styles')
     <style>
         /* Chatbot Widget Styles - Updated */
@@ -361,4 +358,5 @@
     </script>
     <script src="{{ asset('public/frontend/js/chatbot-widget.js') }}?v={{ time() }}"></script>
 @endpush
+@endif
 

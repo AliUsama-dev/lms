@@ -363,9 +363,6 @@
                             </div>
                         </div>
                     @endif
-                    
-                    {{-- Chatbot Widget --}}
-                    @include(theme('components.chatbot-widget'))
                 </div>
 
             </div>

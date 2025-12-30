@@ -5,6 +5,64 @@
         .chatbot-table .QA_table .table tbody td {
             vertical-align: middle;
         }
+        .document-upload-area {
+            border: 2px dashed #ddd;
+            border-radius: 5px;
+            padding: 20px;
+            text-align: center;
+            background-color: #f9f9f9;
+            transition: all 0.3s;
+            cursor: pointer;
+            display: block;
+            margin: 0;
+        }
+        .document-upload-area:hover {
+            border-color: #007bff;
+            background-color: #f0f8ff;
+        }
+        .document-upload-area:hover {
+            border-color: #007bff;
+            background-color: #f0f8ff;
+        }
+        .document-upload-area.dragover {
+            border-color: #007bff;
+            background-color: #e7f3ff;
+        }
+        .document-file-list {
+            margin-top: 15px;
+        }
+        .document-file-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 12px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 8px;
+        }
+        .document-file-item .file-info {
+            flex: 1;
+            display: flex;
+            align-items: center;
+        }
+        .document-file-item .file-name {
+            margin-left: 10px;
+            font-size: 14px;
+        }
+        .document-file-item .file-size {
+            margin-left: 10px;
+            color: #666;
+            font-size: 12px;
+        }
+        .document-file-item .remove-file {
+            color: #dc3545;
+            cursor: pointer;
+            padding: 5px;
+        }
+        .document-file-item .remove-file:hover {
+            color: #c82333;
+        }
     </style>
 @endpush
 
@@ -102,42 +160,11 @@
                             <div class="col-xl-6">
                                 <div class="primary_input mb-25">
                                     <label class="primary_input_label" for="specialization">Specialization</label>
-                                    <input class="primary_input_field" type="text" id="specialization" name="specialization" placeholder="e.g., Python, Django, JavaScript">
+                                    <input class="primary_input_field" type="text" id="specialization" name="specialization" placeholder="e.g., Web Development, JavaScript, Laravel, APIs, General Support">
                                     <span class="text-danger error_msg" id="error_specialization"></span>
                                 </div>
                             </div>
-                            <div class="col-xl-4">
-                                <div class="primary_input mb-25">
-                                    <label class="primary_input_label" for="temperature">Temperature</label>
-                                    <input class="primary_input_field" type="number" id="temperature" name="temperature" step="0.1" min="0" max="2" value="0.7" placeholder="0.7">
-                                    <span class="text-danger error_msg" id="error_temperature"></span>
-                                </div>
-                            </div>
-                            <div class="col-xl-4">
-                                <div class="primary_input mb-25">
-                                    <label class="primary_input_label" for="max_tokens">Max Tokens</label>
-                                    <input class="primary_input_field" type="number" id="max_tokens" name="max_tokens" min="1" value="1000" placeholder="1000">
-                                    <span class="text-danger error_msg" id="error_max_tokens"></span>
-                                </div>
-                            </div>
-                            <div class="col-xl-4">
-                                <div class="primary_input mb-25">
-                                    <label class="primary_input_label" for="document_usage_percentage">Document Usage %</label>
-                                    <input class="primary_input_field" type="number" id="document_usage_percentage" name="document_usage_percentage" min="0" max="100" value="50" placeholder="50">
-                                    <span class="text-danger error_msg" id="error_document_usage_percentage"></span>
-                                </div>
-                            </div>
-                            <div class="col-xl-6">
-                                <div class="primary_input mb-25">
-                                    <label class="primary_input_label" for="response_format">Response Format</label>
-                                    <select class="primary_select" id="response_format" name="response_format">
-                                        <option value="text">Text</option>
-                                        <option value="json">JSON</option>
-                                    </select>
-                                    <span class="text-danger error_msg" id="error_response_format"></span>
-                                </div>
-                            </div>
-                            <div class="col-xl-6">
+                            <div class="col-xl-12">
                                 <div class="primary_input mb-25">
                                     <label class="primary_input_label">Status</label>
                                     <div class="primary_checkbox d-flex">
@@ -145,6 +172,26 @@
                                         <label for="is_active">Active</label>
                                     </div>
                                     <span class="text-danger error_msg" id="error_is_active"></span>
+                                </div>
+                            </div>
+                            <div class="col-xl-12">
+                                <div class="primary_input mb-25">
+                                    <label class="primary_input_label">Add New Documents <span class="text-muted">(Optional)</span></label>
+                                    <input type="file" id="document_files" name="document_files[]" multiple accept=".pdf,.doc,.docx,.txt" style="display: none;">
+                                    <label for="document_files" class="document-upload-area" id="documentUploadArea">
+                                        <p class="mb-2">
+                                            <i class="ti-upload" style="font-size: 24px; color: #007bff;"></i>
+                                        </p>
+                                        <p class="mb-1">
+                                            <strong>Click to upload</strong> or drag and drop
+                                        </p>
+                                        <p class="text-muted" style="font-size: 12px;">
+                                            Upload up to 5 additional documents, max 10MB each.<br>
+                                            Supported formats: PDF, DOC, DOCX, TXT, etc.
+                                        </p>
+                                    </label>
+                                    <div class="document-file-list" id="documentFileList"></div>
+                                    <span class="text-danger error_msg" id="error_document_files"></span>
                                 </div>
                             </div>
                         </div>

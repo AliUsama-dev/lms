@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Exception;
 use Brian2694\Toastr\Facades\Toastr;
 
@@ -189,25 +190,104 @@ class ChatbotController extends Controller
         try {
             $url = $this->getApiUrl();
             
-            $data = $request->only([
-                'name',
-                'description',
-                'system_prompt',
-                'language_style',
-                'specialization',
-                'is_active',
-                'document_usage_percentage',
-                'temperature',
-                'max_tokens',
-                'response_format'
-            ]);
-
-            // Convert is_active to boolean if it's a string
-            if (isset($data['is_active'])) {
-                $data['is_active'] = filter_var($data['is_active'], FILTER_VALIDATE_BOOLEAN);
+            // Prepare multipart form data
+            $multipart = [];
+            
+            // Add text fields
+            $multipart[] = [
+                'name' => 'name',
+                'contents' => $request->input('name')
+            ];
+            
+            if ($request->has('description')) {
+                $multipart[] = [
+                    'name' => 'description',
+                    'contents' => $request->input('description')
+                ];
+            }
+            
+            if ($request->has('system_prompt')) {
+                $multipart[] = [
+                    'name' => 'system_prompt',
+                    'contents' => $request->input('system_prompt')
+                ];
+            }
+            
+            if ($request->has('language_style')) {
+                $multipart[] = [
+                    'name' => 'language_style',
+                    'contents' => $request->input('language_style')
+                ];
+            }
+            
+            if ($request->has('specialization')) {
+                $multipart[] = [
+                    'name' => 'specialization',
+                    'contents' => $request->input('specialization')
+                ];
+            }
+            
+            // Convert is_active to string 'true' or 'false'
+            $isActive = $request->input('is_active', 'false');
+            if (is_string($isActive)) {
+                $isActive = filter_var($isActive, FILTER_VALIDATE_BOOLEAN) ? 'true' : 'false';
+            } else {
+                $isActive = $isActive ? 'true' : 'false';
+            }
+            
+            $multipart[] = [
+                'name' => 'is_active',
+                'contents' => $isActive
+            ];
+            
+            // Add document files
+            // Check both hasFile and allFiles to ensure we catch files
+            $hasFiles = $request->hasFile('document_files');
+            $allFiles = $request->allFiles();
+            
+            if ($hasFiles || isset($allFiles['document_files'])) {
+                $files = $request->file('document_files');
+                
+                // If document_files is not an array, make it one
+                if (!is_array($files)) {
+                    $files = $files ? [$files] : [];
+                }
+                
+                foreach ($files as $file) {
+                    if ($file && $file->isValid()) {
+                        $filePath = $file->getRealPath();
+                        $fileHandle = fopen($filePath, 'r');
+                        
+                        if ($fileHandle === false) {
+                            Log::error('Failed to open file for upload', [
+                                'file_path' => $filePath,
+                                'file_name' => $file->getClientOriginalName()
+                            ]);
+                            continue;
+                        }
+                        
+                        $multipart[] = [
+                            'name' => 'document_files',
+                            'contents' => $fileHandle,
+                            'filename' => $file->getClientOriginalName(),
+                            'headers' => [
+                                'Content-Type' => $file->getMimeType()
+                            ]
+                        ];
+                    }
+                }
             }
 
-            $response = $this->getHttpClient()->post($url, $data);
+            // Log multipart data for debugging
+            Log::debug('Chatbot store request', [
+                'url' => $url,
+                'multipart_count' => count($multipart),
+                'has_files' => $hasFiles,
+                'all_files_keys' => array_keys($allFiles),
+                'file_count' => $hasFiles ? (is_array($request->file('document_files')) ? count($request->file('document_files')) : 1) : 0
+            ]);
+
+            $response = $this->getHttpClient()->asMultipart()->post($url, $multipart);
 
             if ($response->successful()) {
                 Toastr::success('Chatbot created successfully', 'Success');
@@ -274,25 +354,95 @@ class ChatbotController extends Controller
         try {
             $url = $this->getApiUrl($id);
             
-            $data = $request->only([
-                'name',
-                'description',
-                'system_prompt',
-                'language_style',
-                'specialization',
-                'is_active',
-                'document_usage_percentage',
-                'temperature',
-                'max_tokens',
-                'response_format'
-            ]);
-
-            // Convert is_active to boolean if it's a string
-            if (isset($data['is_active'])) {
-                $data['is_active'] = filter_var($data['is_active'], FILTER_VALIDATE_BOOLEAN);
+            // Prepare multipart form data
+            $multipart = [];
+            
+            // Add text fields
+            $multipart[] = [
+                'name' => 'name',
+                'contents' => $request->input('name')
+            ];
+            
+            if ($request->has('description')) {
+                $multipart[] = [
+                    'name' => 'description',
+                    'contents' => $request->input('description')
+                ];
+            }
+            
+            if ($request->has('system_prompt')) {
+                $multipart[] = [
+                    'name' => 'system_prompt',
+                    'contents' => $request->input('system_prompt')
+                ];
+            }
+            
+            if ($request->has('language_style')) {
+                $multipart[] = [
+                    'name' => 'language_style',
+                    'contents' => $request->input('language_style')
+                ];
+            }
+            
+            if ($request->has('specialization')) {
+                $multipart[] = [
+                    'name' => 'specialization',
+                    'contents' => $request->input('specialization')
+                ];
+            }
+            
+            // Convert is_active to string 'true' or 'false'
+            $isActive = $request->input('is_active', 'false');
+            if (is_string($isActive)) {
+                $isActive = filter_var($isActive, FILTER_VALIDATE_BOOLEAN) ? 'true' : 'false';
+            } else {
+                $isActive = $isActive ? 'true' : 'false';
+            }
+            
+            $multipart[] = [
+                'name' => 'is_active',
+                'contents' => $isActive
+            ];
+            
+            // Add document files
+            // Check both hasFile and allFiles to ensure we catch files
+            $hasFiles = $request->hasFile('document_files');
+            $allFiles = $request->allFiles();
+            
+            if ($hasFiles || isset($allFiles['document_files'])) {
+                $files = $request->file('document_files');
+                
+                // If document_files is not an array, make it one
+                if (!is_array($files)) {
+                    $files = $files ? [$files] : [];
+                }
+                
+                foreach ($files as $file) {
+                    if ($file && $file->isValid()) {
+                        $filePath = $file->getRealPath();
+                        $fileHandle = fopen($filePath, 'r');
+                        
+                        if ($fileHandle === false) {
+                            Log::error('Failed to open file for upload', [
+                                'file_path' => $filePath,
+                                'file_name' => $file->getClientOriginalName()
+                            ]);
+                            continue;
+                        }
+                        
+                        $multipart[] = [
+                            'name' => 'document_files',
+                            'contents' => $fileHandle,
+                            'filename' => $file->getClientOriginalName(),
+                            'headers' => [
+                                'Content-Type' => $file->getMimeType()
+                            ]
+                        ];
+                    }
+                }
             }
 
-            $response = $this->getHttpClient()->put($url, $data);
+            $response = $this->getHttpClient()->asMultipart()->put($url, $multipart);
 
             if ($response->successful()) {
                 Toastr::success('Chatbot updated successfully', 'Success');

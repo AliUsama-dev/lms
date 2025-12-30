@@ -11,4 +11,5 @@
 </div>
 @include('preloader')
 <input type="hidden" name="app_debug" class="app_debug" value="{{env('APP_DEBUG') }}">
+@include(theme('components.floating-chatbot'))
 @include(theme('partials._footer'))
