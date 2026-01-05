@@ -676,10 +676,9 @@ if (!function_exists('themeAsset')) {
             $path = 'public/frontend/' . $theme . '/' . $fileName;
             $url = asset($path);
             
-            // Force HTTPS if the current request is secure or FORCE_HTTPS is enabled
-            if (env('FORCE_HTTPS') || request()->secure() || (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on')) {
-                $url = str_replace('http://', 'https://', $url);
-            }
+            // Always force HTTPS - replace any HTTP URLs with HTTPS
+            // This prevents Mixed Content errors when page is loaded over HTTPS
+            $url = str_replace('http://', 'https://', $url);
             
             return $url;
         } catch (Exception $e) {
