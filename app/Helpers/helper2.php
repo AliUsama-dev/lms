@@ -674,7 +674,14 @@ if (!function_exists('themeAsset')) {
                 $theme = 'infixlmstheme';
             }
             $path = 'public/frontend/' . $theme . '/' . $fileName;
-            return asset($path);
+            $url = asset($path);
+            
+            // Force HTTPS if the current request is secure or FORCE_HTTPS is enabled
+            if (env('FORCE_HTTPS') || request()->secure() || (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on')) {
+                $url = str_replace('http://', 'https://', $url);
+            }
+            
+            return $url;
         } catch (Exception $e) {
             return '';
         }
