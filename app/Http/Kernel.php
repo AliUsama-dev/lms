@@ -22,6 +22,7 @@ use App\Http\Middleware\SaasAdmin;
 use App\Http\Middleware\SecureHeaders;
 use App\Http\Middleware\SetLocale;
 use App\Http\Middleware\StudentMiddleware;
+use App\Http\Middleware\EnsureSubscribed;
 use App\Http\Middleware\SubdomainMiddleware;
 use App\Http\Middleware\TrimStrings;
 use App\Http\Middleware\TrustProxies;
@@ -122,6 +123,7 @@ class Kernel extends HttpKernel
         'verified' => EnsureEmailIsVerified::class,
         'admin' => AdminMiddleware::class,
         'student' => StudentMiddleware::class,
+        'ensureSubscribed' => EnsureSubscribed::class,
         'RoutePermissionCheck' => RoutePermissionCheck::class,
         'maintenanceMode' => MaintenanceModeMiddleware::class,
         'onlyAppMode' => AppOnlyModeMiddleware::class,

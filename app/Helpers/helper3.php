@@ -148,6 +148,26 @@ if (!function_exists('isSubscribe')) {
     }
 }
 
+if (!function_exists('isAccountSubscribed')) {
+    /**
+     * Check if the current user has a valid account subscription (subscription_validity_date in the future).
+     * Used for compulsory account-wide subscription; does not depend on Subscription module.
+     */
+    function isAccountSubscribed()
+    {
+        if (!Auth::check()) {
+            return false;
+        }
+        $user = Auth::user();
+        $date_of_subscription = $user->subscription_validity_date;
+        if (empty($date_of_subscription)) {
+            return false;
+        }
+        $expires_at = new DateTime($date_of_subscription);
+        $today = new DateTime('now');
+        return $expires_at >= $today;
+    }
+}
 
 if (!function_exists('userCurrentPlan')) {
     function userCurrentPlan()

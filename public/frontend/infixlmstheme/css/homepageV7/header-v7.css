@@ -319,6 +319,20 @@ html[dir=rtl] .heading nav {
     margin-right: 50px;
 }
 
+/* Keep main nav items in a single row (fixes vertical/floating menu) */
+.heading-nav {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.heading-nav .heading-list {
+    position: relative;
+}
+
 @media only screen and (min-width: 1440px) and (max-width: 1580px) {
     .heading nav {
         margin-left: 20px;
