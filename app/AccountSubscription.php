@@ -13,6 +13,7 @@ class AccountSubscription extends Model
         'plan_id',
         'amount_paid',
         'payment_method',
+        'stripe_subscription_id',
         'starts_at',
         'ends_at',
         'status',

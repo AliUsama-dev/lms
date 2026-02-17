@@ -73,6 +73,7 @@
         "spatie/laravel-sluggable": "^3.6",
         "spatie/laravel-translatable": "^6.8",
         "spatie/valuestore": "^1.2",
+        "stripe/stripe-php": "^10.0",
         "spondonit/ar-php": "^1.0",
         "spondonit/lms-service": "^2.2",
         "spondonit/mobilpay": "^1.1",

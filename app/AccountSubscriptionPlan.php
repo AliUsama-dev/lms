@@ -13,6 +13,8 @@ class AccountSubscriptionPlan extends Model
         'description',
         'price',
         'duration_days',
+        'stripe_product_id',
+        'stripe_price_id',
         'status',
         'order',
     ];

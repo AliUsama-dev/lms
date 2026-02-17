@@ -144,9 +144,14 @@ Route::group(['namespace' => 'Frontend', 'middleware' => ['auth']], function () 
     Route::post('logged-out/device', 'StudentController@logOutDevice')->name('log.out.device');
 });
 
+// Account subscription webhook (no auth; CSRF excluded)
+Route::post('account-subscription/webhook', 'AccountSubscriptionController@webhook')->name('accountSubscriptionWebhook');
+
 // Account subscription (compulsory for students) - Stripe only
 Route::group(['middleware' => ['auth']], function () {
     Route::get('account-subscription', 'AccountSubscriptionController@index')->name('accountSubscription');
+    Route::get('account-subscription/checkout/{plan}', 'AccountSubscriptionController@checkout')->name('accountSubscriptionCheckout');
+    Route::get('account-subscription/success', 'AccountSubscriptionController@success')->name('accountSubscriptionSuccess');
     Route::post('account-subscription/pay', 'AccountSubscriptionController@pay')->name('accountSubscriptionPay');
     Route::get('my-subscription', 'AccountSubscriptionController@mySubscription')->name('mySubscription');
     Route::post('my-subscription/cancel', 'AccountSubscriptionController@cancel')->name('mySubscription.cancel');
@@ -249,6 +254,9 @@ Route::group(['prefix' => 'order', 'middleware' => ['auth']], function () {
     Route::post('submit', 'PaymentController@makePlaceOrder')->name('makePlaceOrder');
     Route::get('/payment', 'PaymentController@payment')->name('orderPayment');
     Route::post('/paymentSubmit', 'PaymentController@paymentSubmit')->name('paymentSubmit');
+    // Stripe Checkout (redirect to Stripe, no modal)
+    Route::get('stripe-checkout', 'PaymentController@stripeCheckout')->name('stripeCheckout');
+    Route::get('stripe-checkout/success', 'PaymentController@stripeCheckoutSuccess')->name('stripeCheckoutSuccess');
     //paypal url
     Route::get('paypal/success', 'PaymentController@paypalSuccess')->name('paypalSuccess');
     Route::get('paypal/failed', 'PaymentController@paypalFailed')->name('paypalFailed');

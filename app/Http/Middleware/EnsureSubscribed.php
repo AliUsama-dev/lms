@@ -29,10 +29,12 @@ class EnsureSubscribed
             return $next($request);
         }
 
-        if ($request->routeIs('accountSubscription') || $request->routeIs('accountSubscriptionPay')) {
+        if ($request->routeIs('accountSubscription') || $request->routeIs('accountSubscriptionPay')
+            || $request->routeIs('accountSubscriptionCheckout') || $request->routeIs('accountSubscriptionSuccess')
+            || $request->routeIs('mySubscription') || $request->routeIs('mySubscription.cancel')) {
             return $next($request);
         }
 
-        return redirect()->route('accountSubscription');
+        return redirect()->route('mySubscription');
     }
 }

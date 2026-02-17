@@ -49,6 +49,15 @@
                                                value="{{ old('order', $plan->order) }}">
                                     </div>
                                 </div>
+                                @if($plan->stripe_price_id)
+                                <div class="col-xl-12">
+                                    <div class="primary_input mb-25">
+                                        <label class="primary_input_label">{{ __('Stripe') }}</label>
+                                        <p class="mb-0 text-muted small">{{ __('Product') }}: <code>{{ $plan->stripe_product_id ?? '—' }}</code> · {{ __('Price') }}: <code>{{ $plan->stripe_price_id }}</code></p>
+                                        <small class="text-muted">{{ __('Recurring subscription is linked to Stripe. Changes to price or validity create a new Price in Stripe.') }}</small>
+                                    </div>
+                                </div>
+                                @endif
                                 <div class="col-xl-12">
                                     <div class="primary_input mb-25">
                                         <label class="primary_input_label" for="description">{{ __('common.Description') }}</label>

@@ -120,19 +120,25 @@
                                                 <span class="price">{{ getPriceFormat($plan->price) }} {{ $currency }}</span>
                                             </div>
                                             <p class="plan-validity">{{ $plan->duration_days }} {{ __('days') }} {{ __('validity') }}</p>
-                                            <form class="account-subscription-form" action="{{ route('accountSubscriptionPay') }}" method="post"
-                                                  data-amount="{{ (int) round($plan->price * 100) }}"
-                                                  data-currency="{{ strtolower($currency) }}"
-                                                  data-name="{{ Settings('site_title') ?? 'Account Subscription' }}"
-                                                  data-description="{{ $plan->name }}">
-                                                @csrf
-                                                <input type="hidden" name="plan_id" value="{{ $plan->id }}">
-                                                <input type="hidden" name="amount" value="{{ $plan->price }}">
-                                                <input type="hidden" name="stripeToken" value="">
-                                                <button type="submit" class="account-subscription-submit theme-btn">
-                                                    {{ __('Pay with Stripe') }}
-                                                </button>
-                                            </form>
+                                            @if($plan->stripe_price_id)
+                                                <a href="{{ route('accountSubscriptionCheckout', $plan) }}" class="account-subscription-submit theme-btn text-decoration-none d-inline-flex align-items-center justify-content-center w-100">
+                                                    {{ __('Subscribe with Stripe (auto-renew)') }}
+                                                </a>
+                                            @else
+                                                <form class="account-subscription-form" action="{{ route('accountSubscriptionPay') }}" method="post"
+                                                      data-amount="{{ (int) round($plan->price * 100) }}"
+                                                      data-currency="{{ strtolower($currency) }}"
+                                                      data-name="{{ Settings('site_title') ?? 'Account Subscription' }}"
+                                                      data-description="{{ $plan->name }}">
+                                                    @csrf
+                                                    <input type="hidden" name="plan_id" value="{{ $plan->id }}">
+                                                    <input type="hidden" name="amount" value="{{ $plan->price }}">
+                                                    <input type="hidden" name="stripeToken" value="">
+                                                    <button type="submit" class="account-subscription-submit theme-btn">
+                                                        {{ __('Pay with Stripe') }}
+                                                    </button>
+                                                </form>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
