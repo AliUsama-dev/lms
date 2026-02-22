@@ -143,7 +143,21 @@ Route::group(['prefix' => 'saas', 'middleware' => ['auth']], function () {
 Route::group(['namespace' => 'Frontend', 'middleware' => ['auth']], function () {
     Route::post('logged-out/device', 'StudentController@logOutDevice')->name('log.out.device');
 });
-Route::group(['namespace' => 'Frontend', 'middleware' => ['student']], function () {
+
+// Account subscription webhook (no auth; CSRF excluded)
+Route::post('account-subscription/webhook', 'AccountSubscriptionController@webhook')->name('accountSubscriptionWebhook');
+
+// Account subscription (compulsory for students) - Stripe only
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('account-subscription', 'AccountSubscriptionController@index')->name('accountSubscription');
+    Route::get('account-subscription/checkout/{plan}', 'AccountSubscriptionController@checkout')->name('accountSubscriptionCheckout');
+    Route::get('account-subscription/success', 'AccountSubscriptionController@success')->name('accountSubscriptionSuccess');
+    Route::post('account-subscription/pay', 'AccountSubscriptionController@pay')->name('accountSubscriptionPay');
+    Route::get('my-subscription', 'AccountSubscriptionController@mySubscription')->name('mySubscription');
+    Route::post('my-subscription/cancel', 'AccountSubscriptionController@cancel')->name('mySubscription.cancel');
+});
+
+Route::group(['namespace' => 'Frontend', 'middleware' => ['student', 'ensureSubscribed']], function () {
     Route::get('student-dashboard', 'StudentController@myDashboard')->name('studentDashboard');
     
     // Chatbot routes for students
@@ -240,6 +254,9 @@ Route::group(['prefix' => 'order', 'middleware' => ['auth']], function () {
     Route::post('submit', 'PaymentController@makePlaceOrder')->name('makePlaceOrder');
     Route::get('/payment', 'PaymentController@payment')->name('orderPayment');
     Route::post('/paymentSubmit', 'PaymentController@paymentSubmit')->name('paymentSubmit');
+    // Stripe Checkout (redirect to Stripe, no modal)
+    Route::get('stripe-checkout', 'PaymentController@stripeCheckout')->name('stripeCheckout');
+    Route::get('stripe-checkout/success', 'PaymentController@stripeCheckoutSuccess')->name('stripeCheckoutSuccess');
     //paypal url
     Route::get('paypal/success', 'PaymentController@paypalSuccess')->name('paypalSuccess');
     Route::get('paypal/failed', 'PaymentController@paypalFailed')->name('paypalFailed');
@@ -286,6 +303,12 @@ Route::group(['middleware' => ['auth']], function () {
 });
 Route::get('fullscreen-view/{course_id}/{lesson_id}', 'Frontend\WebsiteController@fullScreenView')->name('fullScreenView');
 
+// Secure video session routes
+Route::group(['namespace' => 'Frontend', 'middleware' => ['auth']], function () {
+    Route::get('video-session/{token}', 'VideoSessionController@play')->name('video.session.play');
+    Route::post('video-session/progress', 'VideoSessionController@progress')->name('video.session.progress');
+});
+
 
 //Admin Routes Here
 Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'admin']], function () {
@@ -322,6 +345,16 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.', 'mi
     Route::get('/all/enrol-list-data', 'AdminController@getEnrollLogsData')->name('getEnrollLogsData')->middleware('RoutePermissionCheck:admin.enrollLogs');
     Route::get('/all/cancel-list-data', 'AdminController@getCancelLogsData')->name('getCancelLogsData')->middleware('RoutePermissionCheck:admin.enrollLogs');
     Route::get('/all/payout-data', 'AdminController@getPayoutData')->name('getPayoutData');
+
+    // Account subscription plans
+    Route::prefix('account-subscription')->name('account-subscription.')->group(function () {
+        Route::get('plans', 'AccountSubscriptionPlanController@index')->name('plans.index');
+        Route::get('plans/create', 'AccountSubscriptionPlanController@create')->name('plans.create');
+        Route::post('plans', 'AccountSubscriptionPlanController@store')->name('plans.store');
+        Route::get('plans/{plan}/edit', 'AccountSubscriptionPlanController@edit')->name('plans.edit');
+        Route::put('plans/{plan}', 'AccountSubscriptionPlanController@update')->name('plans.update');
+        Route::delete('plans/{plan}', 'AccountSubscriptionPlanController@destroy')->name('plans.destroy');
+    });
 
     // Chatbot Management Routes (Third-party API Integration)
     Route::prefix('chatbot')->name('chatbot.')->group(function () {

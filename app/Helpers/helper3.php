@@ -148,6 +148,32 @@ if (!function_exists('isSubscribe')) {
     }
 }
 
+if (!function_exists('isAccountSubscribed')) {
+    /**
+     * Check if the current user has a valid account subscription.
+     * True if subscription_validity_date is today or in the future, OR they have an active/cancelled
+     * account_subscription with ends_at today or in the future. Matches webhook-updated status.
+     */
+    function isAccountSubscribed()
+    {
+        if (!Auth::check()) {
+            return false;
+        }
+        $user = Auth::user();
+        $today = \Carbon\Carbon::today()->toDateString();
+
+        $date_of_subscription = $user->subscription_validity_date;
+        if (!empty($date_of_subscription) && $date_of_subscription >= $today) {
+            return true;
+        }
+
+        $hasActiveRecord = \App\AccountSubscription::where('user_id', $user->id)
+            ->whereIn('status', ['active', 'cancelled'])
+            ->whereDate('ends_at', '>=', $today)
+            ->exists();
+        return $hasActiveRecord;
+    }
+}
 
 if (!function_exists('userCurrentPlan')) {
     function userCurrentPlan()

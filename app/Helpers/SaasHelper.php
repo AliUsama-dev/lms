@@ -154,6 +154,13 @@ if (!function_exists('getPaymentEnv')) {
     function getPaymentEnv($value)
     {
         try {
+            $stripeKeys = ['STRIPE_SECRET', 'STRIPE_KEY', 'STRIPE_WEBHOOK_SECRET'];
+            if (in_array($value, $stripeKeys, true)) {
+                $fromEnv = env($value);
+                if ($fromEnv !== null && $fromEnv !== '') {
+                    return $fromEnv;
+                }
+            }
 
             $domain = SaasDomain();
             $path = base_path('storage/app/payment.json');
@@ -165,10 +172,11 @@ if (!function_exists('getPaymentEnv')) {
                         $settings->{$property} = $data[$property];
                     }
                 }
-                return $settings->$domain[$value] ?? '';
-            } else {
-                return '';
+                $domainData = $data[$domain] ?? [];
+                $val = is_array($domainData) ? ($domainData[$value] ?? '') : ($settings->$domain[$value] ?? '');
+                return $val;
             }
+            return '';
         } catch (\Throwable $th) {
             return "false";
         }

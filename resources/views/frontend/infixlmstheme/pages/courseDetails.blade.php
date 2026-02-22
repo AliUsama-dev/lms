@@ -13,6 +13,19 @@
 @endsection
 @section('css')
     <style>
+        /* Full-width white background below hero so no dark strip on the right */
+        .course-details-page .course__details {
+            background-color: #fff;
+        }
+
+        /* Smaller sidebar image/video placeholder so it doesn't dominate the layout */
+        .course-details-page .course_sidebar .video_screen {
+            height: 260px;
+            max-height: 260px;
+            background-size: cover;
+            background-position: center;
+        }
+
         .course__details .video_screen {
             background-image: url('{{getCourseImage(@$course->image)}}');
         }

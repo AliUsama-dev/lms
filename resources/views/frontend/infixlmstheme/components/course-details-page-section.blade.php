@@ -1,4 +1,4 @@
-<div>
+<div class="course-details-page">
     <input type="hidden" value="{{asset('/')}}" id="baseUrl">
     @php
         if (@$course->discount_price>0) {
@@ -29,7 +29,7 @@
              style="background-image: url({{asset($frontendContent->breadcrumb_page_banner ?? 'public/frontend/infixlmstheme/img/new_bread_crumb_bg.png')}})">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-8">
+                    <div class="col-12">
                         <p class="location">
                             <span>{{__('courses.Course')}} / {{__('frontend.Course Details')}}</span>
                         </p>

@@ -717,7 +717,9 @@ class LoginController extends Controller
                 $path = route('CheckOut');
             } elseif ($subscriptionCarts > 0){
                 $path =route('courseSubscriptionCheckout');
-            }else {
+            } elseif (!isAccountSubscribed()) {
+                $path = route('mySubscription');
+            } else {
                 $path = route('studentDashboard');
             }
 

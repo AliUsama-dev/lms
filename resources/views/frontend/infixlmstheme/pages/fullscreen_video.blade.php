@@ -1211,8 +1211,13 @@ if ($assign->questionBank->shuffle==1){
             @endif
 
             @if ($lesson->host == 'Self' || $lesson->host == 'Storage')
-                <video class="" id="video-id" controls autoplay>
-                    <source src="{{ asset($lesson->video_url) }}" type="video/mp4"/>
+                <video class="" id="video-id" controls autoplay
+                       @if(!empty($videoSessionToken)) data-session-token="{{ $videoSessionToken }}" @endif>
+                    @if(!empty($videoSessionToken))
+                        <source src="{{ route('video.session.play', $videoSessionToken) }}" type="video/mp4"/>
+                    @else
+                        <source src="{{ asset($lesson->video_url) }}" type="video/mp4"/>
+                    @endif
                     <source src="{{ asset($lesson->video_url) }}" type="video/ogg">
                 </video>
             @endif
@@ -1238,24 +1243,39 @@ if ($assign->questionBank->shuffle==1){
             @endif
             @if ($lesson->host == 'm3u8')
                 <video class="" id="video-id" controls autoplay
+                       @if(!empty($videoSessionToken)) data-session-token="{{ $videoSessionToken }}" @endif
                        onended="lessonAutoComplete(course_id, {{ showPicName(Request::url()) }})">
                 >
-                    <source src="{{ $lesson->video_url }}" type='application/x-mpegURL'/>
+                    @if(!empty($videoSessionToken))
+                        <source src="{{ route('video.session.play', $videoSessionToken) }}" type='application/x-mpegURL'/>
+                    @else
+                        <source src="{{ $lesson->video_url }}" type='application/x-mpegURL'/>
+                    @endif
                 </video>
             @endif
 
 
 
             @if ($lesson->host == 'URL')
-                <video class="" id="video-id" controls autoplay>
-                    <source src="{{ $lesson->video_url }}" type="video/mp4">
+                <video class="" id="video-id" controls autoplay
+                       @if(!empty($videoSessionToken)) data-session-token="{{ $videoSessionToken }}" @endif>
+                    @if(!empty($videoSessionToken))
+                        <source src="{{ route('video.session.play', $videoSessionToken) }}" type="video/mp4">
+                    @else
+                        <source src="{{ $lesson->video_url }}" type="video/mp4">
+                    @endif
                     <source src="{{ $lesson->video_url }}" type="video/ogg">
                     Your browser does not support the video.
                 </video>
             @endif
             @if ($lesson->host == 'AmazonS3')
-                <video class=" " id="video-id" controls>
-                    <source src="{{ $lesson->video_url }}" type="video/mp4"/>
+                <video class=" " id="video-id" controls
+                       @if(!empty($videoSessionToken)) data-session-token="{{ $videoSessionToken }}" @endif>
+                    @if(!empty($videoSessionToken))
+                        <source src="{{ route('video.session.play', $videoSessionToken) }}" type="video/mp4"/>
+                    @else
+                        <source src="{{ $lesson->video_url }}" type="video/mp4"/>
+                    @endif
 
                 </video>
             @endif
@@ -1956,6 +1976,38 @@ if ($assign->questionBank->shuffle==1){
             player.on('ended', () => {
                 lessonAutoComplete(course_id, {{ showPicName(Request::url()) }})
             });
+
+            // Video progress tracking
+            const sessionToken = document.getElementById('video-id')?.dataset?.sessionToken || null;
+            if (sessionToken) {
+                const sendProgress = (ended = false) => {
+                    const current = player.currentTime || 0;
+                    const duration = player.duration || 0;
+
+                    $.ajax({
+                        url: '{{ route('video.session.progress') }}',
+                        type: 'POST',
+                        data: {
+                            _token: '{{ csrf_token() }}',
+                            token: sessionToken,
+                            current_time: current,
+                            duration: duration,
+                            ended: ended ? 1 : 0
+                        }
+                    });
+                };
+
+                player.on('timeupdate', () => {
+                    // Throttle by only sending every 15 seconds
+                    if (Math.floor(player.currentTime) % 15 === 0) {
+                        sendProgress(false);
+                    }
+                });
+
+                player.on('ended', () => {
+                    sendProgress(true);
+                });
+            }
 
 
         </script>

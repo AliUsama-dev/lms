@@ -57,6 +57,7 @@ use Modules\UpcomingCourse\Entities\UpcomingCourseBookingPayment;
 use Modules\VirtualClass\Entities\ClassComplete;
 use Modules\VirtualClass\Entities\ClassRecord;
 use Modules\VirtualClass\Entities\VirtualClass;
+use App\VideoSession;
 
 class WebsiteController extends Controller
 {
@@ -744,6 +745,12 @@ class WebsiteController extends Controller
                 $lesson->playbackInfo = $otp['playbackInfo'];
             }
 
+            // Prepare secure video session token for trackable video hosts
+            $videoSessionToken = null;
+            if (Auth::check() && in_array($lesson->host, ['Self', 'Storage', 'URL', 'AmazonS3', 'm3u8'])) {
+                $videoSessionToken = $this->createVideoSessionToken(Auth::id(), $course->id, $lesson->id);
+            }
+
 
             $isAdmin = false;
             if (Auth::check()) {
@@ -828,10 +835,42 @@ class WebsiteController extends Controller
                 $data['topics'] = $query->first();
             }
             $data['lesson_questions'] = LessonQuestion::where('lesson_id', $lesson->id)->where('course_id', $course_id)->where('parent_id', 0)->where('status', 1)->with(['course', 'lesson', 'user'])->get();
-            return view(theme('pages.fullscreen_video'), $data, compact('quizPass', 'alreadyJoin', 'lesson_ids', 'result', 'preResult', 'quizSetup', 'chapters', 'reviewer_user_ids', 'percentage', 'isEnrolled', 'total', 'certificate', 'course', 'lesson', 'lessons'));
+            return view(theme('pages.fullscreen_video'), $data, compact('quizPass', 'alreadyJoin', 'lesson_ids', 'result', 'preResult', 'quizSetup', 'chapters', 'reviewer_user_ids', 'percentage', 'isEnrolled', 'total', 'certificate', 'course', 'lesson', 'lessons', 'videoSessionToken'));
 
         } catch (Exception $e) {
             GettingError($e->getMessage(), url()->current(), request()->ip(), request()->userAgent());
+        }
+    }
+
+    /**
+     * Create a secure video session token for a given user, course and lesson.
+     *
+     * @param  int  $userId
+     * @param  int  $courseId
+     * @param  int  $lessonId
+     * @return string|null
+     */
+    protected function createVideoSessionToken($userId, $courseId, $lessonId)
+    {
+        try {
+            // Deactivate any existing active sessions for this user and lesson
+            VideoSession::where('user_id', $userId)
+                ->where('lesson_id', $lessonId)
+                ->where('is_active', true)
+                ->update(['is_active' => false]);
+
+            $session = new VideoSession();
+            $session->user_id = $userId;
+            $session->course_id = $courseId;
+            $session->lesson_id = $lessonId;
+            $session->token = md5(uniqid($userId . '|' . $courseId . '|' . $lessonId, true));
+            $session->expires_at = now()->addHour();
+            $session->is_active = true;
+            $session->save();
+
+            return $session->token;
+        } catch (\Throwable $e) {
+            return null;
         }
     }
 

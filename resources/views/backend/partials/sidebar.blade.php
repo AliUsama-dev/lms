@@ -246,6 +246,18 @@
                     </div>
                 </a>
             </li>
+
+            {{-- Account Subscription Plans --}}
+            <li>
+                <a href="{{ route('admin.account-subscription.plans.index') }}" class="{{ request()->routeIs('admin.account-subscription.plans.*') ? 'active' : '' }}">
+                    <div class="nav_icon_small">
+                        <span class="fas fa-id-card-alt"></span>
+                    </div>
+                    <div class="nav_title">
+                        <span>{{ __('Account Subscription') }}</span>
+                    </div>
+                </a>
+            </li>
         @endif
     </ul>
 

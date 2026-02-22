@@ -39,6 +39,7 @@ class VerifyCsrfToken extends Middleware
         "amazonpayment/*",
         "astrapay/*",
         "callback/*",
-        'ccavenue/*'
+        'ccavenue/*',
+        'account-subscription/webhook',
     ];
 }

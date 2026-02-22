@@ -47,7 +47,7 @@
                                             if (isModuleActive('Invoice') && $payment_type == 2) {
                                                 $methods = $withMoule->where('method', 'Bank Payment');
                                             } else {
-                                                $methods = $methods->whereIn('method', ['PayPal', 'Stripe']);
+                                                $methods = $methods->whereIn('method', ['Stripe']);
                                             }
 
                                         @endphp
@@ -61,36 +61,9 @@
                                             <div class="payment_method_single">
                                                 <div class="deposite_payment_wrapper customer_payment_wrapper">
                                                     @if ($gateway->method == 'Stripe')
-                                                        <form action="{{ route('paymentSubmit') }}" method="post">
-
-                                                            <input type="hidden" name="tracking_id"
-                                                                   value="{{ $checkout->tracking }}">
-                                                            <input type="hidden" name="id"
-                                                                   value="{{ $checkout->id }}">
-                                                            @csrf
-                                                            <input type="hidden" name="payment_method"
-                                                                   value="{{ $gateway->method }}">
-                                                            <!-- single_deposite_item  -->
-                                                            <button type="submit" class="Payment_btn">
-                                                                <img class=" w-100 "
-                                                                     style="padding: 12px; margin-top: -9px;"
-                                                                     src="{{ asset($gateway->logo) }}" alt="">
-                                                            </button>
-                                                            @csrf
-                                                            <script src="https://checkout.stripe.com/checkout.js"
-                                                                    class="stripe-button"
-                                                                    data-key="{{ getPaymentEnv('STRIPE_KEY') }}"
-                                                                    data-name="Stripe Payment"
-                                                                    data-image="{{ asset(Settings('favicon')) }}"
-                                                                    data-locale="auto" data-currency="usd"></script>
-
-                                                            <input hidden
-                                                                   value="{{ convertCurrency(Settings('currency_code') ?? 'BDT', 'USD', $checkout->purchase_price) }}"
-                                                                   readonly="readonly" type="text" id="amount"
-                                                                   name="amount">
-
-
-                                                        </form>
+                                                        <a href="{{ route('stripeCheckout', ['id' => $checkout->id, 'tracking_id' => $checkout->tracking]) }}" class="Payment_btn text-decoration-none d-inline-block">
+                                                            <img class="w-100" style="padding: 12px; margin-top: -9px;" src="{{ asset($gateway->logo) }}" alt="Stripe">
+                                                        </a>
                                                     @elseif($gateway->method == 'Wallet')
                                                         <form action="{{ route('paymentSubmit') }}" method="post">
 

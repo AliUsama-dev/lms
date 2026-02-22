@@ -101,6 +101,25 @@
                         </a>
                     </li>
                 @endif
+
+                {{-- Account subscription overview --}}
+                <li>
+                    <a href="{{ route('mySubscription') }}"
+                       class=" d-flex align-items-center {{ routeIs('mySubscription')  ? 'active' : '' }}">
+                        <div class="menu_icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <path d="M4 4H16V6H4V4Z" stroke="currentColor" stroke-width="1.5"
+                                      stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M4 9H16V11H4V9Z" stroke="currentColor" stroke-width="1.5"
+                                      stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M4 14H11V16H4V14Z" stroke="currentColor" stroke-width="1.5"
+                                      stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <span>{{ __('Account Subscription') }}</span>
+                    </a>
+                </li>
                 @if (permissionCheck('myClasses'))
 
                     <li>

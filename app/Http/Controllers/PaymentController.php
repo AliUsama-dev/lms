@@ -70,6 +70,8 @@ use Modules\TapPayment\Http\Controllers\TapPaymentController;
 use Modules\Tranzak\Services\TranzakService;
 use Modules\Wallet\Http\Controllers\WalletController;
 use Omnipay\Omnipay;
+use Stripe\Checkout\Session as StripeSession;
+use Stripe\Stripe;
 use Unicodeveloper\Paystack\Facades\Paystack;
 
 
@@ -342,7 +344,19 @@ class PaymentController extends Controller
 
             if ($user) {
                 $certificate = session()->get('certificate_order') ?? null;
-                $checkout_info = Checkout::where('user_id', $user->id)->latest()->first();
+                $checkout_info = null;
+                if (session()->has('payment_checkout_id') && session()->has('payment_checkout_tracking')) {
+                    $checkout_info = Checkout::where('id', session('payment_checkout_id'))
+                        ->where('tracking', session('payment_checkout_tracking'))
+                        ->where('user_id', $user->id)
+                        ->first();
+                    if ($checkout_info) {
+                        session()->forget(['payment_checkout_id', 'payment_checkout_tracking']);
+                    }
+                }
+                if (!$checkout_info) {
+                    $checkout_info = Checkout::where('user_id', $user->id)->latest()->first();
+                }
                 if ($invoice) {
                     $checkout_info = Checkout::where('user_id', $invoice->user_id)
                         ->where('tracking', $invoice->tracking)
@@ -1033,6 +1047,151 @@ class PaymentController extends Controller
         return redirect()->route('paymentSuccess', $encodedValue);
 
 
+    }
+
+    /**
+     * Create Stripe Checkout Session for course/cart payment and redirect to Stripe (no modal).
+     */
+    public function stripeCheckout(Request $request)
+    {
+        $request->validate([
+            'id' => 'required|integer',
+            'tracking_id' => 'required|string',
+        ]);
+
+        $checkout_info = Checkout::where('id', $request->id)
+            ->where('tracking', $request->tracking_id)
+            ->where('user_id', Auth::id())
+            ->first();
+
+        if (!$checkout_info) {
+            Toastr::error(trans('frontend.Something Went Wrong'), trans('common.Error'));
+            return redirect()->route('orderPayment');
+        }
+
+        $secret = getPaymentEnv('STRIPE_SECRET');
+        if (empty($secret)) {
+            Toastr::error(trans('frontend.Something Went Wrong'), trans('common.Error'));
+            return redirect()->route('orderPayment');
+        }
+
+        if (Settings('hide_multicurrency') == 1 && Auth::check() && Auth::user()->currency) {
+            $amount = (float) number_format(convertCurrency(Auth::user()->currency->code ?? Settings('currency_code'), Settings('currency_code'), $checkout_info->purchase_price), 2);
+        } else {
+            $amount = (float) $checkout_info->purchase_price;
+        }
+
+        $currency = strtolower(Settings('currency_code') ?? 'usd');
+        $zeroDecimal = in_array($currency, ['jpy', 'krw', 'vnd', 'clp', 'pyg'], true);
+        $unitAmount = $zeroDecimal ? (int) round($amount) : (int) round($amount * 100);
+
+        if ($unitAmount < 1) {
+            Toastr::error(trans('frontend.Something Went Wrong'), trans('common.Error'));
+            return redirect()->route('orderPayment');
+        }
+
+        try {
+            Stripe::setApiKey($secret);
+
+            $session = StripeSession::create([
+                'mode' => 'payment',
+                'line_items' => [
+                    [
+                        'price_data' => [
+                            'currency' => $currency,
+                            'product_data' => [
+                                'name' => Settings('site_title') ?: 'Course Purchase',
+                                'description' => 'Order ' . $checkout_info->tracking,
+                            ],
+                            'unit_amount' => $unitAmount,
+                        ],
+                        'quantity' => 1,
+                    ],
+                ],
+                'success_url' => route('stripeCheckoutSuccess', [], true) . '?session_id={CHECKOUT_SESSION_ID}',
+                'cancel_url' => route('orderPayment', [], true),
+                'metadata' => [
+                    'checkout_id' => (string) $checkout_info->id,
+                    'tracking' => $checkout_info->tracking,
+                ],
+                'customer_email' => Auth::user()->email,
+            ]);
+
+            return redirect()->away($session->url);
+        } catch (Exception $e) {
+            GettingError($e->getMessage(), url()->current(), request()->ip(), request()->userAgent());
+            Toastr::error(trans('frontend.Something Went Wrong'), trans('common.Error'));
+            return redirect()->route('orderPayment');
+        }
+    }
+
+    /**
+     * Handle return from Stripe Checkout (course payment). Complete order via payWithGateWay.
+     */
+    public function stripeCheckoutSuccess(Request $request)
+    {
+        $sessionId = $request->query('session_id');
+        if (empty($sessionId)) {
+            Toastr::error(trans('frontend.Something Went Wrong'), trans('common.Error'));
+            return redirect()->route('orderPayment');
+        }
+
+        $secret = getPaymentEnv('STRIPE_SECRET');
+        if (empty($secret)) {
+            Toastr::error(trans('frontend.Something Went Wrong'), trans('common.Error'));
+            return redirect()->route('orderPayment');
+        }
+
+        try {
+            Stripe::setApiKey($secret);
+            $session = StripeSession::retrieve($sessionId);
+
+            if ($session->mode !== 'payment' || $session->payment_status !== 'paid') {
+                Toastr::error(trans('frontend.Something Went Wrong'), trans('common.Error'));
+                return redirect()->route('orderPayment');
+            }
+
+            $checkoutId = (int) ($session->metadata->checkout_id ?? 0);
+            $tracking = $session->metadata->tracking ?? '';
+            if ($checkoutId < 1 || $tracking === '') {
+                Toastr::error(trans('frontend.Something Went Wrong'), trans('common.Error'));
+                return redirect()->route('orderPayment');
+            }
+
+            $checkout_info = Checkout::where('id', $checkoutId)
+                ->where('tracking', $tracking)
+                ->where('user_id', Auth::id())
+                ->first();
+
+            if (!$checkout_info) {
+                Toastr::error(trans('frontend.Something Went Wrong'), trans('common.Error'));
+                return redirect()->route('orderPayment');
+            }
+
+            session()->put('payment_checkout_id', $checkoutId);
+            session()->put('payment_checkout_tracking', $tracking);
+
+            $responseData = [
+                'id' => $session->payment_intent ?? $session->id,
+                'object' => 'payment_intent',
+            ];
+            $payWithStripe = $this->payWithGateWay($responseData, 'Stripe', null, session()->get('invoice'));
+
+            if ($payWithStripe) {
+                Toastr::success(trans('frontend.Payment done successfully'), trans('common.Success'));
+                if (Settings('frontend_active_theme') == 'tvt') {
+                    return redirect('/');
+                }
+                return $this->redirectToDashboard($checkout_info->id);
+            }
+
+            Toastr::error(trans('frontend.Something Went Wrong'), trans('common.Error'));
+            return redirect()->route('orderPayment');
+        } catch (Exception $e) {
+            GettingError($e->getMessage(), url()->current(), request()->ip(), request()->userAgent());
+            Toastr::error(trans('frontend.Something Went Wrong'), trans('common.Error'));
+            return redirect()->route('orderPayment');
+        }
     }
 
     public function paymentSubmit(Request $request)
