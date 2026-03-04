@@ -1870,6 +1870,9 @@ if ($assign->questionBank->shuffle==1){
         @include('whatsappsupport::partials._popup')
     @endif
 
+    {{-- Course-specific floating chatbot icon (only shows for this enrolled course with chatbot) --}}
+    @include(theme('components.floating-chatbot'))
+
 @endsection
 @push('js')
     @if(isModuleActive("WhatsappSupport"))

@@ -1,5 +1,5 @@
 @php
-    // Get enrolled courses with chatbots
+    // Get enrolled courses with chatbots (default behaviour for dashboard and generic pages)
     $enrolledCourses = [];
     if (Auth::check() && Auth::user()->role_id == 3) {
         $enrolledCourses = \Modules\CourseSetting\Entities\CourseEnrolled::where('user_id', Auth::id())
@@ -10,6 +10,29 @@
             ->latest()
             ->limit(5)
             ->get();
+    }
+
+    // On course viewing pages, only expose the chatbot for the current course (if assigned)
+    if (isset($course)) {
+        if (
+            isset($isEnrolled) &&
+            $isEnrolled &&
+            !empty($course->chatbot_id) &&
+            Auth::check() &&
+            Auth::user()->role_id == 3
+        ) {
+            $enrolledCourses = \Modules\CourseSetting\Entities\CourseEnrolled::where('user_id', Auth::id())
+                ->where('course_id', $course->id)
+                ->whereHas('course', function($q) {
+                    $q->whereNotNull('chatbot_id');
+                })
+                ->with('course')
+                ->get();
+        } else {
+            // If we are on a course page but the user is not enrolled or no chatbot is assigned,
+            // do not show any chatbot entries from other courses.
+            $enrolledCourses = collect();
+        }
     }
 @endphp
 
