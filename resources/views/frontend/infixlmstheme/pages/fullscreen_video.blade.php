@@ -1297,10 +1297,14 @@ if ($assign->questionBank->shuffle==1){
             @if ($lesson->host == 'Iframe' ||  $lesson->host =='Youtube')
                 @if (!empty($lesson->video_url))
 
+                    @php
+                        $youtubeResumeStart = (int) ($videoResumeFromSeconds ?? 0);
+                        $youtubeIframeSrc = asset($lesson->video_url) . '?origin=https://plyr.io&amp;iv_load_policy=3&amp;modestbranding=1&amp;playsinline=1&amp;showinfo=0&amp;rel=0&amp;enablejsapi=1' . ($youtubeResumeStart > 0 ? '&amp;start=' . $youtubeResumeStart : '');
+                    @endphp
                     <div class="plyr__video-embed video_iframe" id="video-id"
                          @if(!empty($videoSessionToken)) data-session-token="{{ $videoSessionToken }}" data-resume-from="{{ $videoResumeFromSeconds ?? 0 }}" @endif>
                         <iframe height="500"
-                                src="{{ asset($lesson->video_url) }}?origin=https://plyr.io&amp;iv_load_policy=3&amp;modestbranding=1&amp;playsinline=1&amp;showinfo=0&amp;rel=0&amp;enablejsapi=1"
+                                src="{{ $youtubeIframeSrc }}"
                                 allowfullscreen allowtransparency allow="autoplay"></iframe>
                     </div>
 
@@ -1990,15 +1994,18 @@ if ($assign->questionBank->shuffle==1){
             // Video progress tracking
             const sessionToken = document.getElementById('video-id')?.dataset?.sessionToken || null;
             if (sessionToken) {
+                const progressUrl = '{{ route('video.session.progress') }}';
+                const csrfToken = '{{ csrf_token() }}';
+
                 const sendProgress = (ended = false) => {
                     const current = player.currentTime || 0;
                     const duration = player.duration || 0;
 
                     $.ajax({
-                        url: '{{ route('video.session.progress') }}',
+                        url: progressUrl,
                         type: 'POST',
                         data: {
-                            _token: '{{ csrf_token() }}',
+                            _token: csrfToken,
                             token: sessionToken,
                             current_time: current,
                             duration: duration,
@@ -2007,9 +2014,23 @@ if ($assign->questionBank->shuffle==1){
                     });
                 };
 
+                // Use sendBeacon on tab close so the request is not cancelled (ajax is often killed on unload)
+                const sendProgressBeacon = (ended = false) => {
+                    const current = player.currentTime || 0;
+                    const duration = player.duration || 0;
+                    const form = new FormData();
+                    form.append('_token', csrfToken);
+                    form.append('token', sessionToken);
+                    form.append('current_time', current);
+                    form.append('duration', duration);
+                    form.append('ended', ended ? '1' : '0');
+                    navigator.sendBeacon(progressUrl, form);
+                };
+
                 player.on('timeupdate', () => {
-                    // Throttle by only sending every 15 seconds
-                    if (Math.floor(player.currentTime) % 15 === 0) {
+                    // Send every 5 seconds so we have a recent position even if tab is closed abruptly
+                    const t = Math.floor(player.currentTime);
+                    if (t > 0 && t % 5 === 0) {
                         sendProgress(false);
                     }
                 });
@@ -2018,10 +2039,10 @@ if ($assign->questionBank->shuffle==1){
                     sendProgress(true);
                 });
 
-                // Send progress when user leaves (e.g. closes tab) so resume position is up to date
-                window.addEventListener('beforeunload', () => sendProgress(false));
+                // Critical: use sendBeacon when leaving so progress is saved (normal ajax is cancelled on unload)
+                window.addEventListener('beforeunload', () => sendProgressBeacon(false));
                 document.addEventListener('visibilitychange', () => {
-                    if (document.visibilityState === 'hidden') sendProgress(false);
+                    if (document.visibilityState === 'hidden') sendProgressBeacon(false);
                 });
             }
 
