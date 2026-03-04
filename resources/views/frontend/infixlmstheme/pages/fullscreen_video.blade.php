@@ -1212,7 +1212,7 @@ if ($assign->questionBank->shuffle==1){
 
             @if ($lesson->host == 'Self' || $lesson->host == 'Storage')
                 <video class="" id="video-id" controls autoplay
-                       @if(!empty($videoSessionToken)) data-session-token="{{ $videoSessionToken }}" @endif>
+                       @if(!empty($videoSessionToken)) data-session-token="{{ $videoSessionToken }}" data-resume-from="{{ $videoResumeFromSeconds ?? 0 }}" @endif>
                     @if(!empty($videoSessionToken))
                         <source src="{{ route('video.session.play', $videoSessionToken) }}" type="video/mp4"/>
                     @else
@@ -1243,7 +1243,7 @@ if ($assign->questionBank->shuffle==1){
             @endif
             @if ($lesson->host == 'm3u8')
                 <video class="" id="video-id" controls autoplay
-                       @if(!empty($videoSessionToken)) data-session-token="{{ $videoSessionToken }}" @endif
+                       @if(!empty($videoSessionToken)) data-session-token="{{ $videoSessionToken }}" data-resume-from="{{ $videoResumeFromSeconds ?? 0 }}" @endif
                        onended="lessonAutoComplete(course_id, {{ showPicName(Request::url()) }})">
                 >
                     @if(!empty($videoSessionToken))
@@ -1258,7 +1258,7 @@ if ($assign->questionBank->shuffle==1){
 
             @if ($lesson->host == 'URL')
                 <video class="" id="video-id" controls autoplay
-                       @if(!empty($videoSessionToken)) data-session-token="{{ $videoSessionToken }}" @endif>
+                       @if(!empty($videoSessionToken)) data-session-token="{{ $videoSessionToken }}" data-resume-from="{{ $videoResumeFromSeconds ?? 0 }}" @endif>
                     @if(!empty($videoSessionToken))
                         <source src="{{ route('video.session.play', $videoSessionToken) }}" type="video/mp4">
                     @else
@@ -1270,7 +1270,7 @@ if ($assign->questionBank->shuffle==1){
             @endif
             @if ($lesson->host == 'AmazonS3')
                 <video class=" " id="video-id" controls
-                       @if(!empty($videoSessionToken)) data-session-token="{{ $videoSessionToken }}" @endif>
+                       @if(!empty($videoSessionToken)) data-session-token="{{ $videoSessionToken }}" data-resume-from="{{ $videoResumeFromSeconds ?? 0 }}" @endif>
                     @if(!empty($videoSessionToken))
                         <source src="{{ route('video.session.play', $videoSessionToken) }}" type="video/mp4"/>
                     @else
@@ -1977,6 +1977,15 @@ if ($assign->questionBank->shuffle==1){
                 lessonAutoComplete(course_id, {{ showPicName(Request::url()) }})
             });
 
+            // Resume from previous position when user returns to the lesson (e.g. after closing the tab)
+            const videoEl = document.getElementById('video-id');
+            const resumeFrom = videoEl ? parseInt(videoEl.getAttribute('data-resume-from') || '0', 10) : 0;
+            if (resumeFrom > 0) {
+                player.once('loadedmetadata', () => {
+                    player.currentTime = Math.min(resumeFrom, player.duration || resumeFrom);
+                });
+            }
+
             // Video progress tracking
             const sessionToken = document.getElementById('video-id')?.dataset?.sessionToken || null;
             if (sessionToken) {
@@ -2006,6 +2015,12 @@ if ($assign->questionBank->shuffle==1){
 
                 player.on('ended', () => {
                     sendProgress(true);
+                });
+
+                // Send progress when user leaves (e.g. closes tab) so resume position is up to date
+                window.addEventListener('beforeunload', () => sendProgress(false));
+                document.addEventListener('visibilitychange', () => {
+                    if (document.visibilityState === 'hidden') sendProgress(false);
                 });
             }
 
@@ -2049,6 +2064,22 @@ if ($assign->questionBank->shuffle==1){
                         "adCTATextPosition": ""
                     }
                 });
+            // Resume from previous position when user returns to the lesson (m3u8 / HLS)
+            (function () {
+                const videoEl = document.getElementById('video-id');
+                const resumeFrom = videoEl ? parseInt(videoEl.getAttribute('data-resume-from') || '0', 10) : 0;
+                if (resumeFrom > 0 && typeof myFP.skipTo === 'function') {
+                    const video = videoEl.tagName === 'VIDEO' ? videoEl : videoEl.querySelector('video');
+                    if (video) {
+                        video.addEventListener('loadedmetadata', function seekOnce() {
+                            video.removeEventListener('loadedmetadata', seekOnce);
+                            if (resumeFrom > 0 && resumeFrom < (video.duration || Infinity)) {
+                                myFP.skipTo(resumeFrom);
+                            }
+                        }, { once: true });
+                    }
+                }
+            })();
         </script>
     @endif
     <script src="{{ asset('public/frontend/infixlmstheme/js/app.js') }}{{assetVersion()}}"></script>

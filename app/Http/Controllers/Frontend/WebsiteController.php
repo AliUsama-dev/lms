@@ -747,7 +747,16 @@ class WebsiteController extends Controller
 
             // Prepare secure video session token for trackable video hosts
             $videoSessionToken = null;
+            $videoResumeFromSeconds = 0;
             if (Auth::check() && in_array($lesson->host, ['Self', 'Storage', 'URL', 'AmazonS3', 'm3u8'])) {
+                // Get previous session's position so we can resume from where user left off
+                $previousSession = VideoSession::where('user_id', Auth::id())
+                    ->where('lesson_id', $lesson->id)
+                    ->orderBy('updated_at', 'desc')
+                    ->first();
+                if ($previousSession && ($previousSession->percent_watched ?? 0) < 100) {
+                    $videoResumeFromSeconds = (int) $previousSession->last_position_seconds;
+                }
                 $videoSessionToken = $this->createVideoSessionToken(Auth::id(), $course->id, $lesson->id);
             }
 
@@ -835,7 +844,7 @@ class WebsiteController extends Controller
                 $data['topics'] = $query->first();
             }
             $data['lesson_questions'] = LessonQuestion::where('lesson_id', $lesson->id)->where('course_id', $course_id)->where('parent_id', 0)->where('status', 1)->with(['course', 'lesson', 'user'])->get();
-            return view(theme('pages.fullscreen_video'), $data, compact('quizPass', 'alreadyJoin', 'lesson_ids', 'result', 'preResult', 'quizSetup', 'chapters', 'reviewer_user_ids', 'percentage', 'isEnrolled', 'total', 'certificate', 'course', 'lesson', 'lessons', 'videoSessionToken'));
+            return view(theme('pages.fullscreen_video'), $data, compact('quizPass', 'alreadyJoin', 'lesson_ids', 'result', 'preResult', 'quizSetup', 'chapters', 'reviewer_user_ids', 'percentage', 'isEnrolled', 'total', 'certificate', 'course', 'lesson', 'lessons', 'videoSessionToken', 'videoResumeFromSeconds'));
 
         } catch (Exception $e) {
             GettingError($e->getMessage(), url()->current(), request()->ip(), request()->userAgent());
