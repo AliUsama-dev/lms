@@ -1297,7 +1297,8 @@ if ($assign->questionBank->shuffle==1){
             @if ($lesson->host == 'Iframe' ||  $lesson->host =='Youtube')
                 @if (!empty($lesson->video_url))
 
-                    <div class="plyr__video-embed video_iframe" id="video-id">
+                    <div class="plyr__video-embed video_iframe" id="video-id"
+                         @if(!empty($videoSessionToken)) data-session-token="{{ $videoSessionToken }}" data-resume-from="{{ $videoResumeFromSeconds ?? 0 }}" @endif>
                         <iframe height="500"
                                 src="{{ asset($lesson->video_url) }}?origin=https://plyr.io&amp;iv_load_policy=3&amp;modestbranding=1&amp;playsinline=1&amp;showinfo=0&amp;rel=0&amp;enablejsapi=1"
                                 allowfullscreen allowtransparency allow="autoplay"></iframe>
@@ -1968,7 +1969,7 @@ if ($assign->questionBank->shuffle==1){
                     autoplay: false,
                     loop: false,
                     mute: false,
-                    start: 0,
+                    start: {{ (int) ($videoResumeFromSeconds ?? 0) }},
                     end: null
                 }
             });

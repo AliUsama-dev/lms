@@ -745,10 +745,10 @@ class WebsiteController extends Controller
                 $lesson->playbackInfo = $otp['playbackInfo'];
             }
 
-            // Prepare secure video session token for trackable video hosts
+            // Prepare secure video session token for trackable video hosts (including YouTube/Iframe for progress & resume)
             $videoSessionToken = null;
             $videoResumeFromSeconds = 0;
-            if (Auth::check() && in_array($lesson->host, ['Self', 'Storage', 'URL', 'AmazonS3', 'm3u8'])) {
+            if (Auth::check() && in_array($lesson->host, ['Self', 'Storage', 'URL', 'AmazonS3', 'm3u8', 'Youtube', 'Iframe'])) {
                 // Get previous session's position so we can resume from where user left off
                 $previousSession = VideoSession::where('user_id', Auth::id())
                     ->where('lesson_id', $lesson->id)
